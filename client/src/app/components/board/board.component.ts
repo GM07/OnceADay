@@ -19,11 +19,10 @@ export class BoardComponent {
     public zoomIncrement: number = 10;
 
     constructor(private postService: PostService, public dialog: MatDialog) {
-        postService.getPosts().subscribe((posts: DataPost[]) => {
+        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth, window.innerHeight));
+        postService.getPosts(this.worldViewport).subscribe((posts: DataPost[]) => {
             this.posts = posts.map(Post.fromDataPost);
         });
-        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth, window.innerHeight));
-        console.log(this.worldViewport)
     }
 
     computeNewPostWorldPosition(screenMousePosition: Point) : Point {
@@ -35,14 +34,12 @@ export class BoardComponent {
     }
 
     updateViewport(valueX: number, valueY: number = 0): void {
-        console.log(this.zoomIncrement)
         this.worldViewport.size.x = Math.max(1, this.worldViewport.size.x + valueX);
         this.worldViewport.size.y = Math.max(1, this.worldViewport.size.y + (window.innerHeight / window.innerWidth * valueX));
     }
 
     @HostListener('wheel', ['$event'])
     onMouseWheel(event: WheelEvent): void {
-        console.log(event.deltaY);
         event.preventDefault();
         this.zoomIncrement = this.worldViewport.size.x * 0.001;
         this.updateViewport(event.deltaY * this.zoomIncrement);

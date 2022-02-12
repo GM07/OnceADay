@@ -5,7 +5,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .add-post {
     mat-dialog-container {
-        background-color: #FBE364;
+        background-color: transparent;
+        box-shadow: none;
         padding: 30px;
     }
 }

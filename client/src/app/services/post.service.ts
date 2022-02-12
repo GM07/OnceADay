@@ -21,7 +21,7 @@ export class PostService {
     }
 
     // Will return all posts from origin.x - size.x / 2 to origin.x + size.x / 2
-    getPosts(viewport: Viewport = new Viewport(new Point(0, 0), new Point(100, 100))): Observable<DataPost[]> {
+    getPosts(viewport: Viewport): Observable<DataPost[]> {
         const url = 'http://' + PostService.GET_POSTS_ADDRESS + viewport.convertToUrl();
         console.log(url);
         return this.http

@@ -1,10 +1,23 @@
-#inputText {
+.post {
     background-color: #FBE364;
-    resize: none;
+    height: 300px;
+    width: 300px;
+    padding: 30px;
+    border-radius: 4px;
     border: none;
-    outline: none;
-    overflow: hidden;
+    outline: 0px solid transparent;
+    caret-color: transparent;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.post:empty::before {
+    content: attr(data-placeholder);
+    color: #8e8e8e;
 }
 
 button {
