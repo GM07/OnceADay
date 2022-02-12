@@ -1,6 +1,7 @@
 # pylint: skip-file
 from pymongo import MongoClient
 
+##Idea for like scale by the number of growth for all in a certain direction so that the proportions stay the same
 
 
 
@@ -18,6 +19,14 @@ class Database :
                                     || ((this.center_y +this.likes/2) > {min_x} && (this.center_y + this.likes/2) < {max_x}))
                                     && (((this.center_y - this.likes/2) > {min_y} && (this.center_y - this.likes/2) < {max_y} ) || 
                                     (((this.center_y + this.likes/2) > {min_y} && (this.center_y + this.likes/2) < {max_y})))"""}))
+    
+    def add_like(self,__id,center_x,center_y)->bool:
+        self.db.missions.update_many({"$where" :f"(this.__id != {__id}) && (this.center_x > {center_x})"},{"$inc":{'center_x':1}})
+        self.db.missions.update_many({"$where" :f"(this.__id != {__id}) && (this.center_y > {center_y})"},{"$inc":{'center_y':1}})
+        return  self.db.missions.update_one({"_id":id},{"$inc":{'likes':1,'center_x':1,'center_y':1}}).modified_count == 1
+
+        
+
 
     def test_connection(self):
         self.db.drop_collection('missions')
