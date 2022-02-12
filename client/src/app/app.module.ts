@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SearchTextComponent } from './search-text/search-text.component';
 import { MatIconModule } from '@angular/material/icon'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SearchResultComponent } from './components/search-result/search-result.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BoardComponent,
     PostComponent,
     AddPostComponent,
-    SearchTextComponent
+    SearchTextComponent,
+    SearchResultComponent
   ],
   imports: [
     BrowserModule,
