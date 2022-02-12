@@ -1,6 +1,6 @@
-<div [style.top.px]="this.computeScreenPosition(this.boardWorldPos).y" 
-    [style.left.px]="this.computeScreenPosition(this.boardWorldPos).x" 
-    [style.height.px]="this.post.size" 
-    [style.width.px]="this.post.size">
-    <p [style.max-width.px]="this.post.size" [style.max-height.px]="this.post.size" [style.font-size.px]="getFontSize()">{{ this.post.content }}</p>
+<div [style.top.px]="this.computeScreenPosition().y" 
+    [style.left.px]="this.computeScreenPosition().x" 
+    [style.height.px]="getSize()" 
+    [style.width.px]="getSize()">
+    <p [style.max-width.px]="getSize()" [style.max-height.px]="getSize()" [style.font-size.px]="getFontSize()">{{ this.post.content }}</p>
 </div>

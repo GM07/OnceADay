@@ -1,5 +1,6 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { Post, Point } from 'src/app/data/post';
+import { Viewport } from 'src/app/data/viewport';
 
 @Component({
   selector: 'app-post',
@@ -9,12 +10,13 @@ import { Post, Point } from 'src/app/data/post';
 export class PostComponent{
 
     @Input() public post: Post;
-    @Input() public boardWorldPos: Point;
+    @Input() public boardViewport: Viewport;
     public screenPosition: Point;
     
-    computeScreenPosition(boardWorldPos: Point) : Point {
-        return new Point(this.post.worldPosition.x - boardWorldPos.x + window.innerWidth/2 - this.post.size / 2, 
-            - (this.post.worldPosition.y - boardWorldPos.y - window.innerHeight/2 + this.post.size / 2));
+    computeScreenPosition() : Point {
+        const left = (this.post.worldPosition.x - this.boardViewport.getMinX()) * window.innerWidth / this.boardViewport.size.x;
+        const top = (this.post.worldPosition.y - this.boardViewport.getMinY()) * window.innerHeight / this.boardViewport.size.y;
+        return new Point(left - this.getSize() / 2, top - this.getSize() / 2);
     }
 
     @HostListener('dblclick', ['$event'])
@@ -22,7 +24,13 @@ export class PostComponent{
         event.stopPropagation();
     }
 
+    getSize(): number {
+        // return this.post.size;
+        return window.innerWidth / this.boardViewport.size.x * this.post.size;
+    }
+
     getFontSize(): number {
+        //FINDS THE LONGEST WORD
         const words = this.post.content.split(' ');
         let longestWordLen = 1;
         for (const word of words) {
@@ -30,9 +38,10 @@ export class PostComponent{
             if (word.length <= 25 && longestWordLen < word.length) 
                 longestWordLen = word.length;
         }
-
-        const fontSizeTotal = (this.post.size) / Math.sqrt(this.post.content.length);
-        const fontSizeWord = this.post.size / longestWordLen;
+        
+        //Estimate where to start font size
+        let fontSizeTotal = (this.getSize()) / Math.sqrt(this.post.content.length);
+        let fontSizeWord = this.getSize() / longestWordLen; 
 
         return Math.min(fontSizeTotal, fontSizeWord);
     }
