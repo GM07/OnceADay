@@ -2,6 +2,7 @@ import { Component, Inject, HostListener } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Point, Post } from 'src/app/data/post';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-add-post',

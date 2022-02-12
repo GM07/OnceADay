@@ -80,7 +80,7 @@ export class BoardComponent {
         this.dragStarted = false;
     }
 
-    openDialog(): void {
+    async openDialog(): Promise<void> {
 
         const dialogRef = this.dialog.open(AddPostComponent, {
             panelClass: "add-post",
@@ -90,9 +90,12 @@ export class BoardComponent {
             }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result !== undefined)
-                this.posts.push(result);
+        dialogRef.afterClosed().subscribe(async result => {
+            if (result !== undefined) {
+                let reqResult: boolean = await this.postService.addPost(result);
+                if (reqResult)
+                    this.posts.push(result);
+            }
         });
     }
 }
