@@ -1,4 +1,4 @@
-div {
+#board {
     background-color: whitesmoke;
     position: absolute;
     top: 0;
@@ -6,4 +6,12 @@ div {
     bottom: 0;
     right: 0;
     overflow: hidden;
+}
+
+#coordinates {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 14px;
+    color: black;
 }

@@ -1,0 +1,17 @@
+<div mat-dialog-content>
+    <textarea 
+        id="inputText"
+        [(ngModel)]="text"
+		[style.font-size.px]="10"
+        matInput 
+        rows="3"
+        wrap="hard"
+        cols="30"
+		placeholder="What's on your mind"
+        [style.caret-color]="text.length == 0 ? 'transparent' : 'auto'"></textarea> 
+        <!-- Do not add space between <textarea> and </textarea> -->
+</div>
+<div mat-dialog-actions align="center">
+    <button mat-raised-button (click)="this.cancel()">Cancel</button>
+    <button mat-raised-button (click)="this.add()">Add</button>
+</div>
