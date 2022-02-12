@@ -5,6 +5,7 @@ from mongo.mongo import Database
 
 
 
+
 # Flask application
 APP = Flask(__name__)
 # In order to accept external requests
@@ -31,10 +32,7 @@ def addNotes():
 @APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
 def getNotes(min_x, max_x, min_y, max_y):
     mongo = Database()
-    res = mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y)
-    for test in res:
-        test['_id'] = str(test['_id'])
-    return {'Notes': res}
+    return {'Notes': mongo.serialize_list(mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y))}
 
 
 database = Database()

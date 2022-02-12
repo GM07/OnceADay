@@ -53,18 +53,26 @@ class Database:
             {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': -1}})
         return self.db.missions.update_one({"_id": id}, {"$inc": {'likes': -1, 'center_x': -0.5, 'center_y': -0.5}}).modified_count == 1
 
+    def find_text(self, text) -> list:
+        return list(self.db.map.find({"$where": f"this.type == 'text' && this.content.includes('{text}')"}))
+
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
-        self.upload_block({'text': 'test0', 'likes': 10,
+        self.upload_block({'type': 'text', 'content': 'test0', 'likes': 10,
                           'center_x': 0, 'center_y': 0})
-        self.upload_block({'text': 'test1', 'likes': 10,
+        self.upload_block({'type': 'text', 'content': 'test1', 'likes': 10,
                           'center_x': 5, 'center_y': 5})
-        self.upload_block({'text': 'test2', 'likes': 10,
+        self.upload_block({'type': 'text', 'content': 'test2', 'likes': 10,
                           'center_x': 10, 'center_y': 0})
-        self.upload_block({'text': 'test3', 'likes': 10,
+        self.upload_block({'type': 'text', 'content': 'test3', 'likes': 10,
                           'center_x': 34, 'center_y': 0})
 
         result = self.db.map.find()
 
         for test in result:
             print(test)
+
+    def serialize_list(self,result:list):
+        for test in result:
+            test['_id'] = str(test['_id'])
+        return result
