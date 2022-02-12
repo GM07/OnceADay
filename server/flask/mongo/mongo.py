@@ -28,10 +28,10 @@ class Database:
 
         if len(collisions) == 0:
              self.db.map.insert_one(post)
-             return True
+             return "True"
 
         print("spot taken")
-        return False
+        return "False"
 
     def get_all_blocks_in_range(self, min_x: int, max_x: int, min_y: int, max_y: int):
 
@@ -53,7 +53,7 @@ class Database:
             {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': -1}})
         self.db.missions.update_many(
             {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': -1}})
-        return self.db.missions.update_one({"_id": id, "likes" :{"$gt:0"}}, {"$inc": {'likes': -1, 'center_x': -0.5, 'center_y': -0.5}}).modified_count == 1
+        return str(self.db.missions.update_one({"_id": id, "likes" :{"$gt:0"}}, {"$inc": {'likes': -1, 'center_x': -0.5, 'center_y': -0.5}}).modified_count == 1)
 
     def find_text(self, text) -> list:
         return list(self.db.map.find({"$where": f"this.type == 'text' && this.content.includes('{text}')"}))
