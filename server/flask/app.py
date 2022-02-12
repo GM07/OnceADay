@@ -22,23 +22,23 @@ APP.config['SECRET_KEY'] = 'dev'
     
 
 # Launch mission
-@APP.route('/local_blocks/<min_x>', methods=['POST'])
+@APP.route('/notes', methods=['POST'])
 def launch():
-    print(request.args)
-    return (request.args)
-    #if(request.args.get('min_x'))
+    mongo = Database()
+    return mongo.upload_block(request.json)
 
 
-@APP.route('/local_blocks/<min_x>/<max_x>/<min_y>/<max_y>')
+@APP.route('/local_notes/<min_x>/<max_x>/<min_y>/<max_y>')
 def terminate(min_x,max_x,min_y,max_y):
     mongo = Database()
     res = mongo.get_all_blocks_in_range(min_x,max_x,min_y,max_y)
     for test in res :
        test['_id'] = str(test['_id'])
     return {'Notes':res}
-    
 
 
+database = Database()
+database.test_get_all_blocks()    
 
 if __name__ == '__main__':
     print('The backend is running on port 5000')
