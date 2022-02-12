@@ -29,13 +29,13 @@ def add_notes():
     return json.dumps(mongo.upload_block(request.json))
 
 
-@APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
+@APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>', methods=['GET'])
 def get_notes(min_x, max_x, min_y, max_y):
     mongo = Database()
     return json.dumps(mongo.serialize_list(mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y)))
 
 
-@APP.route('/notes_by_text/<text>')
+@APP.route('/notes_by_text/<text>', methods=['GET'])
 def find_notes_by_text(text):
     mongo = Database()
     return json.dumps(mongo.serialize_list(mongo.find_text(text)))
