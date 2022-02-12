@@ -28,7 +28,7 @@ def launch():
     return mongo.upload_block(request.json)
 
 
-@APP.route('/local_notes/<min_x>/<max_x>/<min_y>/<max_y>')
+@APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
 def terminate(min_x,max_x,min_y,max_y):
     mongo = Database()
     res = mongo.get_all_blocks_in_range(min_x,max_x,min_y,max_y)
