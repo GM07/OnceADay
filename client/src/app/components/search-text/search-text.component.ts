@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { DataPost, Post } from '../data/post';
-import { PostService } from '../services/post.service';
+import { Component } from '@angular/core';
+import { PostService } from 'src/app/services/post.service';
+import { DataPost, Post } from '../../data/post';
 
 @Component({
   selector: 'app-search-text',
@@ -19,5 +19,7 @@ export class SearchTextComponent {
         this.postService.getPostsByQuery(this.query).subscribe((dataPost: DataPost[]) => {
             this.results = dataPost.map(Post.fromDataPost);
         });
+
+        console.log(this.results);
     }
 }
