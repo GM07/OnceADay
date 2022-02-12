@@ -1,3 +1,7 @@
-<div [style.top.px]="this.screenPosition.y" [style.left.px]="this.screenPosition.x" [style.height.px]="this.post.size" [style.width.px]="this.post.size">
-    {{ this.post.content }}
+<div [style.top.px]="this.computeScreenPosition().y" 
+    [style.left.px]="this.computeScreenPosition().x" 
+    [style.height.px]="getSize()" 
+    [style.width.px]="getSize()"
+    [style.background-image]="this.post.type == 'image' ? 'url(this.post.image)' : 'none'">
+    <p *ngIf="this.post.type == 'text'" [style.max-width.px]="getSize()" [style.max-height.px]="getSize()" [style.font-size.px]="getFontSize()">{{ this.post.content }}</p>
 </div>

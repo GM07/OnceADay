@@ -2,7 +2,7 @@
 from flask import jsonify, Flask, request
 from flask_cors import CORS
 from mongo.mongo import Database
-
+import json
 
 
 
@@ -32,13 +32,13 @@ def add_notes():
 @APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
 def get_notes(min_x, max_x, min_y, max_y):
     mongo = Database()
-    return {'Notes': mongo.serialize_list(mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y))}
+    return json.dumps(mongo.serialize_list(mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y)))
 
 
 @APP.route('/notes_by_text/<text>')
 def find_notes_by_text(text):
     mongo = Database()
-    return {'Notes': mongo.serialize_list(mongo.find_text(text))}
+    return json.dumps(mongo.serialize_list(mongo.find_text(text)))
 
 
 

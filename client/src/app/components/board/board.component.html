@@ -1,3 +1,9 @@
+<div id="board" draggable="true">
+    <app-post *ngFor="let post of this.posts" [post]="post" [boardViewport]="this.worldViewport"></app-post>
+</div>
+<div id="coordinates">
+    <p>Coordinates : {{ this.worldViewport.origin.x }}, {{ -this.worldViewport.origin.y }} </p>
+</div>
 <div>
-    <app-post *ngFor="let post of this.posts" [post]="post" [boardWorldPos]="this.worldPos"></app-post>
+
 </div>

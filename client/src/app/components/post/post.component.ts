@@ -1,25 +1,53 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { Post, Point } from 'src/app/data/post';
+import { Viewport } from 'src/app/data/viewport';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent implements OnInit {
+export class PostComponent{
 
     @Input() public post: Post;
-    @Input() public boardWorldPos: Point;
+    @Input() public boardViewport: Viewport;
     public screenPosition: Point;
-
-    computeScreenPosition(boardWorldPos: Point) : Point {
-        return new Point(this.post.worldPosition.x - boardWorldPos.x + window.innerWidth/2 - this.post.size / 2, this.post.worldPosition.y - boardWorldPos.y + window.innerHeight/2 - this.post.size / 2);
+    
+    computeScreenPosition() : Point {
+        const left = (this.post.worldPosition.x - this.boardViewport.getMinX()) * window.innerWidth / this.boardViewport.size.x;
+        const top = (this.post.worldPosition.y - this.boardViewport.getMinY()) * window.innerHeight / this.boardViewport.size.y;
+        return new Point(left - this.getSize() / 2, top - this.getSize() / 2);
     }
 
-    ngOnInit(): void {
-        console.log(this.post);
-        console.log(this.boardWorldPos);
-        this.screenPosition = this.computeScreenPosition(this.boardWorldPos);
-        console.log(this.screenPosition);
+    boxShadow() : String {
+        const offsetX: number = this.getSize()/400;
+        const offsetY: number = this.getSize()/800;
+        return `${offsetX}px ${offsetY}px #2222`
+    }
+
+    @HostListener('dblclick', ['$event'])
+    onDoubleClick(event: MouseEvent): void {
+        event.stopPropagation();
+    }
+
+    getSize(): number {
+        return window.innerWidth / this.boardViewport.size.x * this.post.size;
+    }
+
+    getFontSize(): number {
+        //FINDS THE LONGEST WORD
+        const words = this.post.content.split(' ');
+        let longestWordLen = 1;
+        for (const word of words) {
+            //TODO ADD constant to reprensent max word size before wrap
+            if (word.length <= 25 && longestWordLen < word.length) 
+                longestWordLen = word.length;
+        }
+        
+        //Estimate where to start font size
+        let fontSizeTotal = (this.getSize()) / Math.sqrt(this.post.content.length);
+        let fontSizeWord = this.getSize() / longestWordLen; 
+
+        return Math.min(fontSizeTotal, fontSizeWord);
     }
 }
