@@ -12,6 +12,9 @@ APP = Flask(__name__)
 CORS(APP)
 APP.config['SECRET_KEY'] = 'dev'
 
+@APP.route('/test')
+def test():
+    return "hi"
 
 @APP.route('/like/<id>', methods=['POST'])
 def like(id):
