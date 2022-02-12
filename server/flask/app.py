@@ -1,9 +1,8 @@
-from enum import Enum
-from pickle import NONE
+# pylint: skip-file
 from flask import jsonify, Flask, request
 from flask_cors import CORS
-from mongo.mongo   import Database
-#import numpy as np
+from mongo.mongo import Database
+
 
 
 
@@ -14,33 +13,39 @@ CORS(APP)
 APP.config['SECRET_KEY'] = 'dev'
 
 
-
-
-
-# Add block
-#@APP.route('/addBlock', methods=['POST'])
-#def addBlock():
-    
-
-# Launch mission
-@APP.route('/local_blocks/<min_x>', methods=['POST'])
-def launch():
-    print(request.args)
-    return (request.args)
-    #if(request.args.get('min_x'))
-
-
-@APP.route('/terminate/<min_x>/<max_x>/<min_y>/<max_y>')
-def terminate(min_x,max_x,min_y,max_y):
+@APP.route('/like/<id>', methods=['POST'])
+def like(id):
     mongo = Database()
-    res = mongo.get_all_blocks_in_range(min_x,max_x,min_y,max_y)
-    for test in res :
-       test['_id'] = str(test['_id'])
-    return {'Notes':res}
-    
+    return mongo.add_like(id)
+
+@APP.route('/dislike/<id>', methods=['POST'])
+def dislike(id):
+    mongo = Database()
+    return mongo.remove_like(id)
+
+@APP.route('/notes', methods=['POST'])
+def add_notes():
+    mongo = Database()
+    return mongo.upload_block(request.json)
 
 
+@APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
+def get_notes(min_x, max_x, min_y, max_y):
+    mongo = Database()
+    return {'Notes': mongo.serialize_list(mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y))}
+
+
+@APP.route('/notes_by_text/<text>')
+def find_notes_by_text(text):
+    mongo = Database()
+    return {'Notes': mongo.serialize_list(mongo.find_text(text))}
+
+
+
+database = Database()
+database.test_get_all_blocks()
 
 if __name__ == '__main__':
     print('The backend is running on port 5000')
-    APP.run(host = "localhost", debug=True, port=5000)
+    APP.run(host="localhost", debug=True, port=5000)
+
