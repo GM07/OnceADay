@@ -26,12 +26,13 @@ export class PostComponent{
         const words = this.post.content.split(' ');
         let longestWordLen = 1;
         for (const word of words) {
+            //TODO ADD constant to reprensent max word size before wrap
             if (word.length <= 25 && longestWordLen < word.length) 
                 longestWordLen = word.length;
         }
 
         const fontSizeTotal = (this.post.size) / Math.sqrt(this.post.content.length);
-        const fontSizeWord = this.post.size / longestWordLen * 1.5;
+        const fontSizeWord = this.post.size / longestWordLen;
 
         return Math.min(fontSizeTotal, fontSizeWord);
     }
