@@ -20,7 +20,7 @@ export class BoardComponent {
     public zoomIncrement: number = 10;
 
     constructor(private postService: PostService, public dialog: MatDialog) {
-        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / 40, window.innerHeight / 40));
+        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / 10, window.innerHeight / 10));
         postService.getPosts(this.worldViewport).subscribe((posts: DataPost[]) => {
             this.posts = posts.map(Post.fromDataPost);
         });

@@ -1,1 +1,2 @@
-**/__pycache__
+server/flask/__pycache__/*
+server/flask/mongo/__pycache__/*
