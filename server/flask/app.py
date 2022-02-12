@@ -24,15 +24,22 @@ def dislike(id):
     return mongo.remove_like(id)
 
 @APP.route('/notes', methods=['POST'])
-def addNotes():
+def add_notes():
     mongo = Database()
     return mongo.upload_block(request.json)
 
 
 @APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
-def getNotes(min_x, max_x, min_y, max_y):
+def get_notes(min_x, max_x, min_y, max_y):
     mongo = Database()
     return {'Notes': mongo.serialize_list(mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y))}
+
+
+@APP.route('/notes_by_text/<text>')
+def find_notes_by_text(text):
+    mongo = Database()
+    return {'Notes': mongo.serialize_list(mongo.find_text(text))}
+
 
 
 database = Database()
