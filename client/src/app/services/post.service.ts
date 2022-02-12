@@ -17,7 +17,7 @@ export class PostService {
 
     constructor(private http: HttpClient) {}
 
-    async addPost(post: Post): Promise<boolean> {
+    addPost(post: Post): Observable<string> {
         const httpOptions = {
             headers: new HttpHeaders({ 
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export class PostService {
         };
 
         const url = PostService.ADD_POSTS_ADDRESS;
-        return (await firstValueFrom<string>(this.http.post<string>(url, JSON.stringify(post.toDataPost()), httpOptions).pipe())) == 'True';
+        return this.http.post<string>(url, JSON.stringify(post.toDataPost()), httpOptions);
     }
 
     getPostsByQuery(query: string): Observable<DataPost[]> {
