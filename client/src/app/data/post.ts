@@ -10,6 +10,17 @@ export class Point {
 }
 
 
+export interface DataPost {
+
+    id: string;
+    type: string;
+    content: string;
+    likes: number;
+    center_x: number;
+    center_y: number;
+}
+
+
 export class Post {
 
     public worldPosition: Point;
@@ -24,5 +35,9 @@ export class Post {
         this.worldPosition = worldPos;
         this.size = size;
         this.content = content;
+    }
+
+    public static fromDataPost(data: DataPost): Post {
+        return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.content);
     }
 }

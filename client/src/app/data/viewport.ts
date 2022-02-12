@@ -26,4 +26,8 @@ export class Viewport {
         return this.origin.y + this.size.y / 2;
     }
 
+    convertToUrl(): string {
+        return this.getMinX() + '/' + this.getMaxX() + '/' + this.getMinY() + '/' + this.getMaxY()
+    }
+
 }

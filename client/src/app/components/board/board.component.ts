@@ -1,5 +1,5 @@
 import { Component, Host, HostListener, OnInit } from '@angular/core';
-import { Point, Post } from 'src/app/data/post';
+import { DataPost, Point, Post } from 'src/app/data/post';
 import { PostService } from 'src/app/services/post.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddPostComponent } from '../add-post/add-post.component';
@@ -19,9 +19,9 @@ export class BoardComponent {
     public zoomIncrement: number = 10;
 
     constructor(private postService: PostService, public dialog: MatDialog) {
-        postService.getPosts().then((posts: Post[]) => {
-            this.posts = posts;
-        })
+        postService.getPosts().subscribe((posts: DataPost[]) => {
+            this.posts = posts.map(Post.fromDataPost);
+        });
         this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth, window.innerHeight));
         console.log(this.worldViewport)
     }
