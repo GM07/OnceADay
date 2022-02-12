@@ -1,7 +1,7 @@
-import { Component, Host, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener} from '@angular/core';
 import { DataPost, Point, Post } from 'src/app/data/post';
 import { PostService } from 'src/app/services/post.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { Viewport } from 'src/app/data/viewport';
 
