@@ -12,7 +12,7 @@ import { interval, firstValueFrom } from 'rxjs';
 export class PostService {
 
     public static readonly GET_POSTS_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/notes/'
-    public static readonly ADD_POSTS_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/notes/'
+    public static readonly ADD_POSTS_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/notes'
 
     constructor(private http: HttpClient) {}
 
@@ -27,8 +27,7 @@ export class PostService {
         };
 
         const url = PostService.ADD_POSTS_ADDRESS;
-        return (await firstValueFrom(this.http.post(url, JSON.stringify(post), httpOptions).pipe())) > 0; 
-
+        return (await firstValueFrom(this.http.post(url, JSON.stringify(post.toDataPost()), httpOptions).pipe())) > 0;
     }
 
     // Will return all posts from origin.x - size.x / 2 to origin.x + size.x / 2
