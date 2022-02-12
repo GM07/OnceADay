@@ -2,6 +2,7 @@ import { Component, Inject, HostListener } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Point, Post } from 'src/app/data/post';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-add-post',
@@ -23,12 +24,7 @@ export class AddPostComponent {
           this.dialogRef.close();
 
         const post: Post = new Post(new Point(this.data['x'], this.data['y']), 100, this.text);
-        console.log(post.worldPosition);
         this.dialogRef.close(post);
-    }
-
-    public onTextChange(event: Event): void {
-        console.log(this.text)
     }
 
     @HostListener('document:keydown', ['$event']) 

@@ -31,7 +31,6 @@ export class PostComponent{
     }
 
     getSize(): number {
-        // return this.post.size;
         return window.innerWidth / this.boardViewport.size.x * this.post.size;
     }
 

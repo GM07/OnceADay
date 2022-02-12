@@ -4,7 +4,7 @@ import { Viewport } from '../data/viewport';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommunicationService } from './communication.service';
 import { Observable } from 'rxjs/internal/Observable';
-
+import { interval, firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +12,29 @@ import { Observable } from 'rxjs/internal/Observable';
 export class PostService {
 
     public static readonly GET_POSTS_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/notes/'
+    public static readonly ADD_POSTS_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/notes/'
 
     constructor(private http: HttpClient) {}
 
     async addPost(post: Post): Promise<boolean> {
+        const httpOptions = {
+            headers: new HttpHeaders({ 
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+            })
+        };
 
-        return true;
+        const url = PostService.ADD_POSTS_ADDRESS;
+        return (await firstValueFrom(this.http.post(url, JSON.stringify(post), httpOptions).pipe())) > 0; 
+
     }
 
     // Will return all posts from origin.x - size.x / 2 to origin.x + size.x / 2
-    getPosts(viewport: Viewport = new Viewport(new Point(0, 0), new Point(100, 100))): Observable<DataPost[]> {
-        const url = 'http://' + PostService.GET_POSTS_ADDRESS + viewport.convertToUrl();
-        console.log(url);
-        return this.http
-            .get<DataPost[]>(url).pipe();
+    getPosts(viewport: Viewport): Observable<DataPost[]> {
+        const url = PostService.GET_POSTS_ADDRESS + viewport.convertToUrl();
+        return this.http.get<DataPost[]>(url).pipe();
 
         // return [
         //     new Post(new Point(0, 0), 200, "Origin"),
