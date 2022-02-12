@@ -2,7 +2,8 @@ from enum import Enum
 from pickle import NONE
 from flask import jsonify, Flask, request
 from flask_cors import CORS
-
+from mongo.mongo   import Database
+#import numpy as np
 
 
 
@@ -22,42 +23,24 @@ APP.config['SECRET_KEY'] = 'dev'
     
 
 # Launch mission
-@APP.route('/launch', methods=['POST'])
+@APP.route('/local_blocks/<min_x>', methods=['POST'])
 def launch():
-    if(get_mission_started()):
-        return ''
+    print(request.args)
+    return (request.args)
+    #if(request.args.get('min_x'))
 
-    is_simulated = request.get_json()
-    print("launch")
-    if is_simulated:
-        COMM_SIMULATION.send_command(COMMANDS.LAUNCH.value)
-    else:
-        COMM_CRAZYFLIE.send_command(COMMANDS.LAUNCH.value, URI[0])
-        COMM_CRAZYFLIE.send_command(COMMANDS.LAUNCH.value, URI[1])
+
+@APP.route('/terminate/<min_x>/<max_x>/<min_y>/<max_y>')
+def terminate(min_x,max_x,min_y,max_y):
+    mongo = Database()
+    res = mongo.get_all_blocks_in_range(min_x,max_x,min_y,max_y)
+    for test in res :
+       test['_id'] = str(test['_id'])
+    return {'Notes':res}
     
-    set_mission_simulated(is_simulated)
-    set_mission_started(True)
-    update_status()
-    return 'Launched'
-
-# Terminate mission
-@APP.route('/terminate')
-def terminate():
-    if(not get_mission_started()):
-        return ''
-
-    if get_mission_simulated():
-        COMM_SIMULATION.send_command(COMMANDS.LAND.value)
-    else:
-        COMM_CRAZYFLIE.send_command(COMMANDS.LAND.value, URI[0])
-        COMM_CRAZYFLIE.send_command(COMMANDS.LAND.value, URI[1])
-
-    set_mission_started(False)
-    update_status()
-    return ''
 
 
 
 if __name__ == '__main__':
     print('The backend is running on port 5000')
-    SOCKETIO.run(APP, debug=False, host='0.0.0.0', port=5000)
+    APP.run(host = "localhost", debug=True, port=5000)
