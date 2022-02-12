@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchTextComponent } from './search-text/search-text.component';
+import { MatIconModule } from '@angular/material/icon'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -32,7 +33,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     HttpClientModule,
     MatInputModule,
-    NgbModule
+    MatIconModule,
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
