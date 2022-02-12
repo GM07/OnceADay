@@ -14,7 +14,6 @@ class Database :
         self.db.map.insert_one(block)
 
     def get_all_blocks_in_range(self,min_x:int,max_x:int,min_y:int,max_y:int)->list:
-        print(f"(this.centre - this.likes/2) > {min_x} || (this.centre + this.likes/2) < {max_x}) && (this.centre - this.likes/2) > {min_y} || (this.centre + this.likes/2) < {max_y})")
         return list(self.db.map.find({"$where" :f"""(((this.center - this.likes/2) > {min_x} && (this.center - this.likes/2) < {max_x}) 
                                     || ((this.center +this.likes/2) > {min_x} && (this.center + this.likes/2) < {max_x}))
                                     && (((this.center - this.likes/2) > {min_y} 
@@ -50,5 +49,5 @@ class Database :
 database = Database()
 database.test_get_all_blocks()
 
-print(database.get_all_blocks_in_range(0,20,0,30))
+print(database.get_all_blocks_in_range(9,20,0,30))
 
