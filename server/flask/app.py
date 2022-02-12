@@ -16,17 +16,17 @@ APP.config['SECRET_KEY'] = 'dev'
 @APP.route('/like/<id>', methods=['POST'])
 def like(id):
     mongo = Database()
-    return mongo.add_like(id)
+    return json.dumps(mongo.add_like(id))
 
 @APP.route('/dislike/<id>', methods=['POST'])
 def dislike(id):
     mongo = Database()
-    return mongo.remove_like(id)
+    return json.dumps(mongo.remove_like(id))
 
 @APP.route('/notes', methods=['POST'])
 def add_notes():
     mongo = Database()
-    return mongo.upload_block(request.json)
+    return json.dumps(mongo.upload_block(request.json))
 
 
 @APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
@@ -39,7 +39,6 @@ def get_notes(min_x, max_x, min_y, max_y):
 def find_notes_by_text(text):
     mongo = Database()
     return json.dumps(mongo.serialize_list(mongo.find_text(text)))
-
 
 
 database = Database()
