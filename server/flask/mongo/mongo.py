@@ -14,12 +14,10 @@ class Database :
         self.db.map.insert_one(block)
 
     def get_all_blocks_in_range(self,min_x:int,max_x:int,min_y:int,max_y:int)->list:
-        return list(self.db.map.find({"$where" :f"""(((this.center - this.likes/2) > {min_x} && (this.center - this.likes/2) < {max_x}) 
-                                    || ((this.center +this.likes/2) > {min_x} && (this.center + this.likes/2) < {max_x}))
-                                    && (((this.center - this.likes/2) > {min_y} 
-                                    && (this.center - this.likes/2) < {max_y} ) || 
-                                    (((this.center + this.likes/2) > {min_y} 
-                                    && (this.center + this.likes/2) < {max_y})))"""}))
+        return list(self.db.map.find({"$where" :f"""(((this.center_x - this.likes/2) > {min_x} && (this.center _x- this.likes/2) < {max_x}) 
+                                    || ((this.center_y +this.likes/2) > {min_x} && (this.center_y + this.likes/2) < {max_x}))
+                                    && (((this.center_y - this.likes/2) > {min_y} && (this.center_y - this.likes/2) < {max_y} ) || 
+                                    (((this.center_y + this.likes/2) > {min_y} && (this.center_y + this.likes/2) < {max_y})))"""}))
 
     def test_connection(self):
         self.db.drop_collection('missions')
@@ -36,9 +34,9 @@ class Database :
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
         self.db.map.insert_one({'text':'test0','likes':10,'center':0})
-        self.db.map.insert_one({'text':'test1','likes':10,'center':0})
-        self.db.map.insert_one({'text':'test2','likes':10,'center':0})
-        self.db.map.insert_one({'text':'test3','likes':10,'center':0})
+        self.db.map.insert_one({'text':'test1','likes':10,'center':5})
+        self.db.map.insert_one({'text':'test2','likes':10,'center':10})
+        self.db.map.insert_one({'text':'test3','likes':10,'center':34})
         
         result = self.db.map.find()
 
@@ -48,6 +46,4 @@ class Database :
 
 database = Database()
 database.test_get_all_blocks()
-
-print(database.get_all_blocks_in_range(9,20,0,30))
 
