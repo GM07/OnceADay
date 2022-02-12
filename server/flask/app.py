@@ -1,8 +1,7 @@
-
+# pylint: skip-file
 from flask import jsonify, Flask, request
 from flask_cors import CORS
-from mongo.mongo   import Database
-#import numpy as np
+from mongo.mongo import Database
 
 
 
@@ -13,33 +12,35 @@ CORS(APP)
 APP.config['SECRET_KEY'] = 'dev'
 
 
+@APP.route('/like/<id>', methods=['POST'])
+def like(id):
+    mongo = Database()
+    return mongo.add_like(id)
 
+@APP.route('/dislike/<id>', methods=['POST'])
+def dislike(id):
+    mongo = Database()
+    return mongo.remove_like(id)
 
-
-# Add block
-#@APP.route('/addBlock', methods=['POST'])
-#def addBlock():
-    
-
-# Launch mission
 @APP.route('/notes', methods=['POST'])
-def launch():
+def addNotes():
     mongo = Database()
     return mongo.upload_block(request.json)
 
 
 @APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
-def terminate(min_x,max_x,min_y,max_y):
+def getNotes(min_x, max_x, min_y, max_y):
     mongo = Database()
-    res = mongo.get_all_blocks_in_range(min_x,max_x,min_y,max_y)
-    for test in res :
-       test['_id'] = str(test['_id'])
-    return {'Notes':res}
+    res = mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y)
+    for test in res:
+        test['_id'] = str(test['_id'])
+    return {'Notes': res}
 
 
 database = Database()
-database.test_get_all_blocks()    
+database.test_get_all_blocks()
 
 if __name__ == '__main__':
     print('The backend is running on port 5000')
-    APP.run(host = "localhost", debug=True, port=5000)
+    APP.run(host="localhost", debug=True, port=5000)
+
