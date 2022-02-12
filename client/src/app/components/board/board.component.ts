@@ -4,6 +4,7 @@ import { PostService } from 'src/app/services/post.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { Viewport } from 'src/app/data/viewport';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -92,9 +93,10 @@ export class BoardComponent {
 
         dialogRef.afterClosed().subscribe(async result => {
             if (result !== undefined) {
-                let reqResult: boolean = await this.postService.addPost(result);
-                if (reqResult)
-                    this.posts.push(result);
+                this.postService.addPost(result).subscribe((value) => {
+                    if (value == 'True')
+                        this.posts.push(result);
+                });
             }
         });
     }
