@@ -1,7 +1,0 @@
-<div id="container">
-    <form class="form-inline md-form mr-auto mb-4">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" [value]="query">
-        <button class="btn"><i class="fa fa-search" (click)="search()"></i></button>
-    </form>
-    <p *ngFor="let post of results"> {{ post.worldPosition.x }}, {{ post.worldPosition.y }} </p>
-</div>

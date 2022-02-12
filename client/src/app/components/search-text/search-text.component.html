@@ -1,0 +1,11 @@
+<div id="container">
+    <form class="form-inline md-form mr-auto mb-4">
+        <input [(ngModel)]="query" name="search-box" class="form-control mr-sm-2" type="text">
+        <button type="button" class="btn btn-success" (click)="search()">Search</button>
+    </form>
+    <div id="results">
+        <div id="centered">
+            <app-search-result *ngFor="let post of results" [post]="post"></app-search-result>
+        </div>
+    </div>
+</div>
