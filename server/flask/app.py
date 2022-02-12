@@ -32,22 +32,21 @@ def add_notes():
     return json.dumps(mongo.upload_block(request.json))
 
 
-@APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>', methods=['GET'])
+@APP.route('/notes/<min_x>/<max_x>/<min_y>/<max_y>')
 def get_notes(min_x, max_x, min_y, max_y):
     mongo = Database()
     return json.dumps(mongo.serialize_list(mongo.get_all_blocks_in_range(min_x, max_x, min_y, max_y)))
 
 
-@APP.route('/notes_by_text/<text>', methods=['GET'])
+@APP.route('/notes_by_text/<text>')
 def find_notes_by_text(text):
     mongo = Database()
     return json.dumps(mongo.serialize_list(mongo.find_text(text)))
 
 
-database = Database()
-database.test_get_all_blocks()
+
 
 if __name__ == '__main__':
     print('The backend is running on port 5000')
-    APP.run(host="localhost", debug=True, port=5000)
+    APP.run(host='0.0.0.0' , debug=True, port=5000)
 
