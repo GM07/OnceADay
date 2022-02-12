@@ -1,7 +1,6 @@
 # pylint: skip-file
 from pymongo import *
-import json
-from bson import ObjectId
+
 
 ##Idea for like scale by the number of growth for all in a certain direction so that the proportions stay the same
 
@@ -16,11 +15,7 @@ class Database :
     def upload_block(self,block):
         self.db.map.insert_one(block)
         
-    def parse_json(self,o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        print(o)
-        return  o
+    
     def get_all_blocks_in_range(self,min_x:int,max_x:int,min_y:int,max_y:int):
         
         print(list(self.db.map.find({"$where" :f"""(((this.center_x - this.likes/2) > {min_x} && (this.center_x - this.likes/2) < {max_x}) 
