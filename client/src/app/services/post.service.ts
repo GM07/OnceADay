@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { DataPost, Point, Post } from '../data/post';
 import { Viewport } from '../data/viewport';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { CommunicationService } from './communication.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { interval, firstValueFrom } from 'rxjs';
+import { interval, firstValueFrom, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +23,14 @@ export class PostService {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
             })
         };
 
         const url = PostService.ADD_POSTS_ADDRESS;
-        return this.http.post<string>(url, JSON.stringify(post.toDataPost()), httpOptions);
+        return this.http.post<string>(url, JSON.stringify(post.toDataPost()), httpOptions).pipe();
     }
+
 
     getPostsByQuery(query: string): Observable<DataPost[]> {
         const url = PostService.SEARCH_POSTS_ADDRESS + query;

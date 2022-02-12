@@ -23,7 +23,7 @@ export class AddPostComponent {
         if (this.text === "")
           this.dialogRef.close();
 
-        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 100, this.text);
+        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text);
         this.dialogRef.close(post);
     }
 
