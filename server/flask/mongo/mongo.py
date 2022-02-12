@@ -79,5 +79,3 @@ class Database:
             test['_id'] = str(test['_id'])
         return result
     
-database = Database()
-database.test_get_all_blocks()
