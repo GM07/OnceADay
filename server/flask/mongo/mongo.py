@@ -23,7 +23,7 @@ class Database :
     def add_like(self,__id,center_x,center_y)->bool:
         self.db.missions.update_many({"$where" :f"(this.__id != {__id}) && (this.center_x > {center_x})"},{"$inc":{'center_x':1}})
         self.db.missions.update_many({"$where" :f"(this.__id != {__id}) && (this.center_y > {center_y})"},{"$inc":{'center_y':1}})
-        return  self.db.missions.update_one({"_id":id},{"$inc":{'likes':1,'center_x':1,'center_y':1}}).modified_count == 1
+        return  self.db.missions.update_one({"_id":id},{"$inc":{'likes':1,'center_x':0.5,'center_y':0.5}}).modified_count == 1
 
         
 
@@ -42,10 +42,10 @@ class Database :
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
-        self.db.map.insert_one({'text':'test0','likes':10,'center':0})
-        self.db.map.insert_one({'text':'test1','likes':10,'center':5})
-        self.db.map.insert_one({'text':'test2','likes':10,'center':10})
-        self.db.map.insert_one({'text':'test3','likes':10,'center':34})
+        self.db.map.insert_one({'text':'test0','likes':10,'center_x':0})
+        self.db.map.insert_one({'text':'test1','likes':10,'center_x':5})
+        self.db.map.insert_one({'text':'test2','likes':10,'center_y':10})
+        self.db.map.insert_one({'text':'test3','likes':10,'center_z':34})
         
         result = self.db.map.find()
 
