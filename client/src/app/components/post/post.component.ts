@@ -19,12 +19,6 @@ export class PostComponent{
         return new Point(left - this.getSize() / 2, top - this.getSize() / 2);
     }
 
-    boxShadow() : String {
-        const offsetX: number = this.getSize()/400;
-        const offsetY: number = this.getSize()/800;
-        return `${offsetX}px ${offsetY}px #2222`
-    }
-
     @HostListener('dblclick', ['$event'])
     onDoubleClick(event: MouseEvent): void {
         event.stopPropagation();

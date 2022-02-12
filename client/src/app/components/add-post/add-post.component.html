@@ -1,15 +1,11 @@
 <div mat-dialog-content>
-    <textarea 
-        id="inputText"
-        [(ngModel)]="text"
-		[style.font-size.px]="10"
-        matInput 
-        rows="3"
-        wrap="hard"
-        cols="30"
-		placeholder="What's on your mind"
-        [style.caret-color]="text.length == 0 ? 'transparent' : 'auto'"></textarea> 
-        <!-- Do not add space between <textarea> and </textarea> -->
+    <div class="post" 
+    (input)="onInput($event)"
+    [style.font-size.px]="this.getFontSize()"
+    [style.line-height.px]="this.getFontSize()"
+    contenteditable="true"
+    data-placeholder="What's on your mind">
+    </div>
 </div>
 <div mat-dialog-actions align="center">
     <button mat-raised-button (click)="this.cancel()">Cancel</button>
