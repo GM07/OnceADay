@@ -1,5 +1,4 @@
-from enum import Enum
-from pickle import NONE
+
 from flask import jsonify, Flask, request
 from flask_cors import CORS
 from mongo.mongo   import Database
@@ -30,7 +29,7 @@ def launch():
     #if(request.args.get('min_x'))
 
 
-@APP.route('/terminate/<min_x>/<max_x>/<min_y>/<max_y>')
+@APP.route('/local_blocks/<min_x>/<max_x>/<min_y>/<max_y>')
 def terminate(min_x,max_x,min_y,max_y):
     mongo = Database()
     res = mongo.get_all_blocks_in_range(min_x,max_x,min_y,max_y)
