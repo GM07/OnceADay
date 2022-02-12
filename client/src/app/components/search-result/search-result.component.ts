@@ -14,7 +14,6 @@ export class SearchResultComponent {
     constructor(private localisationService: LocalisationService) { }
 
     move(): void {
-        console.log('moving');
-        this.localisationService.worldViewport.origin = this.post.worldPosition;
+        this.localisationService.setOrigin(this.post.worldPosition);
     }
 }

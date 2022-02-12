@@ -20,32 +20,39 @@ export class BoardComponent {
     public zoomIncrement: number = 10;
 
     constructor(private postService: PostService, private localisationService: LocalisationService, public dialog: MatDialog) {
-        postService.getPosts(this.localisationService.worldViewport).subscribe((posts: DataPost[]) => {
+        postService.getPosts(this.localisationService.getExtendedViewport()).subscribe((posts: DataPost[]) => {
             this.posts = posts.map(Post.fromDataPost);
+        });
+        
+        this.localisationService.fetchPosts.subscribe((viewport: Viewport) => {
+            postService.getPosts(viewport).subscribe((posts: DataPost[]) => {
+                this.posts = posts.map(Post.fromDataPost);
+            });
         });
     }
 
     computeNewPostWorldPosition(screenMousePosition: Point) : Point {
 
-        const x = screenMousePosition.x / window.innerWidth * this.localisationService.worldViewport.size.x + this.localisationService.worldViewport.getMinX();
-        const y = screenMousePosition.y / window.innerHeight * this.localisationService.worldViewport.size.y + this.localisationService.worldViewport.getMinY();
+        const x = screenMousePosition.x / window.innerWidth * this.localisationService.getSize().x + this.localisationService.getViewport().getMinX();
+        const y = screenMousePosition.y / window.innerHeight * this.localisationService.getSize().y + this.localisationService.getViewport().getMinY();
 
         return new Point(x, y);
     }
 
     updateViewport(valueX: number, valueY: number = 0): void {
-        this.localisationService.worldViewport.size.x = Math.max(1, this.localisationService.worldViewport.size.x + valueX);
-        this.localisationService.worldViewport.size.y = Math.max(1, this.localisationService.worldViewport.size.y + (window.innerHeight / window.innerWidth * valueX));
+        
+        const newSize = new Point(Math.max(1, this.localisationService.getSize().x + valueX), Math.max(1, this.localisationService.getSize().y + (window.innerHeight / window.innerWidth * valueX)));
+        this.localisationService.setSize(newSize);
     }
 
     getWorldViewport(): Viewport {
-        return this.localisationService.worldViewport;
+        return this.localisationService.getViewport();
     }
 
     @HostListener('wheel', ['$event'])
     onMouseWheel(event: WheelEvent): void {
         event.preventDefault();
-        this.zoomIncrement = this.localisationService.worldViewport.size.x * 0.001;
+        this.zoomIncrement = this.localisationService.getSize().x * 0.001;
         this.updateViewport(event.deltaY * this.zoomIncrement);
     }
 
@@ -62,8 +69,11 @@ export class BoardComponent {
     @HostListener('mousemove', ['$event'])
     onMouseMove(event: MouseEvent): void {
         if (this.dragStarted) {
-            this.localisationService.worldViewport.origin.x -= event.movementX / window.innerWidth * this.localisationService.worldViewport.size.x;
-            this.localisationService.worldViewport.origin.y -= event.movementY / window.innerHeight * this.localisationService.worldViewport.size.y;
+            const offset: Point = new Point(
+                -event.movementX / window.innerWidth * this.localisationService.getSize().x,
+                -event.movementY / window.innerHeight * this.localisationService.getSize().y
+            );
+            this.localisationService.moveOriginWithOffset(offset);
         }
     }
 
