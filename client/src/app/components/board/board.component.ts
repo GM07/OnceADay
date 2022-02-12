@@ -20,7 +20,7 @@ export class BoardComponent {
     public zoomIncrement: number = 10;
 
     constructor(private postService: PostService, public dialog: MatDialog) {
-        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth, window.innerHeight));
+        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / 40, window.innerHeight / 40));
         postService.getPosts(this.worldViewport).subscribe((posts: DataPost[]) => {
             this.posts = posts.map(Post.fromDataPost);
         });
@@ -94,6 +94,7 @@ export class BoardComponent {
         dialogRef.afterClosed().subscribe(async result => {
             if (result !== undefined) {
                 this.postService.addPost(result).subscribe((value) => {
+                    console.log('value');
                     if (value == 'True')
                         this.posts.push(result);
                 });
