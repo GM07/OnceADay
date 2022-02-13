@@ -54,7 +54,6 @@ export class PostComponent implements OnInit{
             this.currentRadius2 = (speedFactor * val + PostComponent.MAX_RADIUS_SOUND / 2) % PostComponent.MAX_RADIUS_SOUND;
             this.currentOpacity1 = this.getOpacityOfWave(1);
             this.currentOpacity2 = this.getOpacityOfWave(2);
-            console.log('opa : ' + this.currentOpacity1);
         });
         
         this.audio.src = this.post.sound;

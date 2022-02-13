@@ -74,6 +74,9 @@ export class Post {
         return new Post(new Point(data.center_x, data.center_y), AddPostComponent.DEFAULT_SIZE + data.likes, data.text, data._id, data.img, data.sound, data.textAlign);
     }
 
+    hash() {
+        return this.id;
+    }
 
 
 }

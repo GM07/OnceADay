@@ -1,6 +1,6 @@
 
 <div id="board" draggable="true">
-    <app-post *ngFor="let post of this.posts" [post]="post" [boardViewport]="this.getWorldViewport()"></app-post>
+    <app-post *ngFor="let pair of this.posts | keyvalue; trackBy:trackByIdentity" [post]="pair.value" [boardViewport]="this.getWorldViewport()"></app-post>
 </div>
 <div id="coordinates">
     <form class="form-inline md-form mr-auto mb-4">
