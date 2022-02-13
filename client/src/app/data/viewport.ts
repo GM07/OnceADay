@@ -10,6 +10,10 @@ export class Viewport {
         this.size = size;
     }
 
+    copy(): Viewport {
+        return new Viewport(new Point(this.origin.x, this.origin.y), new Point(this.size.x, this.size.y))
+    }
+
     getMinX(): number {
         return this.origin.x - this.size.x / 2;
     }

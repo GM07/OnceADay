@@ -80,8 +80,8 @@ export class AddPostComponent {
       
       //Estimate where to start font size
       //TODO - Put constants for size of pop-up
-      let fontSizeTotal = 240 / Math.sqrt(this.text.length);
-      let fontSizeWord = 240 / longestWordLen * 1.5; 
+      let fontSizeTotal = 440 / Math.sqrt(this.text.length);
+      let fontSizeWord = 440 / longestWordLen * 1.5; 
 
       return Math.min(fontSizeTotal, fontSizeWord);
     }
