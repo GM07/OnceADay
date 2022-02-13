@@ -56,7 +56,7 @@ class Database:
         return str(self.db.missions.update_one({"_id": id, "likes" :{"$gt:0"}}, {"$inc": {'likes': -1, 'center_x': -0.5, 'center_y': -0.5}}).modified_count == 1)
     
     def find_text(self, text) -> list:
-        return list(self.db.map.find({"$where": f"this.type == 'text' && this.content.includes('{text}')"}))
+        return list(self.db.map.find({"$where": f"this.text.includes('{text}')"}))
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
