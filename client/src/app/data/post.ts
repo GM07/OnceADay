@@ -59,7 +59,10 @@ export class Post {
             center_y: this.worldPosition.y,
             likes: 0,
             text: this.text,
-            type: this.type
+            type: this.type,
+            _id: this.id,
+            img: this.img,
+            textAlign: this.textAlign
         } as DataPost
     }
 
