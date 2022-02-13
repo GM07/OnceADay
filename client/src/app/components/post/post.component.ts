@@ -10,14 +10,14 @@ import { PostService } from 'src/app/services/post.service';
     name: 'safeHtml'
   })
   export class SafeHtmlPipe implements PipeTransform {
-   
+
     constructor(private sanitizer: DomSanitizer) {
     }
-   
+
     transform(value: any, args?: any): any {
       return this.sanitizer.bypassSecurityTrustHtml(value);
     }
-   
+
   }
 
 @Component({
@@ -39,12 +39,13 @@ export class PostComponent implements OnInit{
     public currentOpacity1: number = 0;
     public currentOpacity2: number = 0;
     
-    constructor(private postService: PostService, private localisationService: LocalisationService) { 
-        
-    }
+    constructor(private postService: PostService, private localisationService: LocalisationService) { }
 
     ngOnInit(): void {
         
+        this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
+            this.postService.authenticated = res;
+        })
         
         const source = timer(0, 1);
         source.subscribe(val => {
@@ -68,7 +69,7 @@ export class PostComponent implements OnInit{
             this.audio.play();
             this.audio.volume = 0;
             const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
-    
+
             this.localisationService.worldOriginMoved.subscribe((origin) => {
                 const pointInViewport = this.localisationService.getViewport().pointIn(this.post.worldPosition, new Point(this.post.size * 2, this.post.size * 2));
                 if (pointInViewport) {
@@ -81,7 +82,7 @@ export class PostComponent implements OnInit{
                     this.audio.volume = 0;
                     this.audio.pause();
                 }
-                    
+
             });
         }
     }
@@ -98,6 +99,12 @@ export class PostComponent implements OnInit{
 
     @HostListener('dblclick', ['$event'])
     onClick(event: MouseEvent): void {
+
+
+        if(!this.postService.authenticated){
+          alert('You must login to like a post')
+          return
+        }
         this.postService.likePost(this.post.id).subscribe((result: string) => {
             if (result) {
                 this.post.size++;
@@ -116,13 +123,13 @@ export class PostComponent implements OnInit{
         let longestWordLen = 1;
         for (const word of words) {
             //TODO ADD constant to reprensent max word size before wrap
-            if (word.length <= 25 && longestWordLen < word.length) 
+            if (word.length <= 25 && longestWordLen < word.length)
                 longestWordLen = word.length;
         }
-        
+
         //Estimate where to start font size
         let fontSizeTotal = (this.getSize()) / Math.sqrt(this.post.text.length);
-        let fontSizeWord = this.getSize() / longestWordLen; 
+        let fontSizeWord = this.getSize() / longestWordLen;
 
         return Math.min(fontSizeTotal, fontSizeWord);
     }

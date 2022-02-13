@@ -1,3 +1,4 @@
+
 <div id="board" draggable="true">
     <app-post *ngFor="let post of this.posts" [post]="post" [boardViewport]="this.getWorldViewport()"></app-post>
 </div>
@@ -7,6 +8,13 @@
         <button type="button" class="btn btn-success" (click)="teleport()">Teleport</button>
     </form>
     <button class="margin" type="button" class="btn btn-success" (click)="copyCoordinates()">Copy coordinates : {{ getCoordinateX() }}, {{ getCoordinateY() }} </button>
+</div>
+<div id="popup">
+
+<app-popup>
+</app-popup>
+
+
 </div>
 <div id="search">
     <app-search-text></app-search-text>
