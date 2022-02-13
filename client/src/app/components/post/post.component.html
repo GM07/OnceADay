@@ -13,12 +13,16 @@
     [style.line-height.px]="getFontSize()"
     [style.color]="this.post.textColor"
     >{{ this.post.text }}</p>
-    <div *ngIf="this.post.sound.length > 0" id="yooo" class="circleBase type1" 
-        [style.width.%]="this.currentRadius1" 
-        [style.height.%]="this.currentRadius1"
-        [style.opacity]="this.currentOpacity1"></div>
-    <div *ngIf="this.post.sound.length > 0" id="yooo" class="circleBase type1" 
-        [style.width.%]="this.currentRadius2" 
-        [style.height.%]="this.currentRadius2"
-        [style.opacity]="this.currentOpacity2"></div>
 </div>
+<div *ngIf="this.post.sound.length > 0" id="yooo" class="circleBase type1" 
+    [style.width.%]="this.currentRadius1" 
+    [style.height.%]="this.currentRadius1"
+    [style.opacity]="this.currentOpacity1"
+    [style.top.px]="this.computeScreenPosition().y" 
+    [style.left.px]="this.computeScreenPosition().x"></div>
+<div *ngIf="this.post.sound.length > 0" id="yooo" class="circleBase type1" 
+    [style.width.%]="this.currentRadius2" 
+    [style.height.%]="this.currentRadius2"
+    [style.opacity]="this.currentOpacity2"
+    [style.top.px]="this.computeScreenPosition().y" 
+    [style.left.px]="this.computeScreenPosition().x"></div>

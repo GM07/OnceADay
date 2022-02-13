@@ -41,7 +41,6 @@ export class BoardComponent implements OnInit {
         });
 
         this.localisationService.fetchPosts.subscribe((fetchEvent: FetchEvent) => {
-            console.log('fetch');
             postService.getPosts(fetchEvent.viewport).subscribe((posts: DataPost[]) => {
                 if (fetchEvent.fetchByTimer) {
                     posts.map(Post.fromDataPost).forEach((post: Post) => {
@@ -91,7 +90,6 @@ export class BoardComponent implements OnInit {
         if (this.location64.length > 0) {
             try {
                 const coordinates = JSON.parse(atob(this.location64)) as Point;
-                console.log(coordinates);
                 this.localisationService.setOrigin(coordinates);
             } catch (e) {
                 console.log('Could not parse location');
