@@ -27,8 +27,8 @@ class Database:
                                     || (((this.center_y > {min_y}) && (this.center_y < {max_y})) && ((this.center_x > {min_x}) && (this.center_x < {max_x})))"""}))
 
         if len(collisions) == 0:
-             self.db.map.insert_one(post)
-             return "True"
+            id= self.db.map.insert_one(post)
+            return str(id.inserted_id) 
 
         print("spot taken")
         return "False"
@@ -41,22 +41,22 @@ class Database:
                                     (((this.center_y + {self.default_size}/2 + this.likes/2) > {min_y} && (this.center_y + {self.default_size}/2 + this.likes/2) < {max_y})))
                                     || (((this.center_y > {min_y}) && (this.center_y < {max_y})) && ((this.center_x > {min_x}) && (this.center_x < {max_x})))"""}))
 
-    def add_like(self, __id, center_x, center_y) -> bool:
-        self.db.missions.update_many(
-            {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': 1}})
-        self.db.missions.update_many(
-            {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': 1}})
-        return self.db.missions.update_one({"_id": id}, {"$inc": {'likes': 1, 'center_x': 0.5, 'center_y': 0.5}}).modified_count == 1
+    def add_like(self, _id) -> bool:
+        # self.db.missions.update_many(
+        #   {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': 1}})
+        #self.db.missions.update_many(
+        #    {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': 1}})
+        return self.db.missions.update_one({"_id": ObjectId(_id)}, {"$inc": {'likes': 1}}).modified_count == 1
 
-    def remove_like(self, __id, center_x, center_y) -> bool:
-        self.db.missions.update_many(
-            {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': -1}})
-        self.db.missions.update_many(
-            {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': -1}})
-        return str(self.db.missions.update_one({"_id": id, "likes" :{"$gt:0"}}, {"$inc": {'likes': -1, 'center_x': -0.5, 'center_y': -0.5}}).modified_count == 1)
+    def remove_like(self, _id) -> bool:
+       # self.db.missions.update_many(
+       #     {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': -1}})
+       # self.db.missions.update_many(
+       #     {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': -1}})
+        return str(self.db.missions.update_one({"_id": ObjectId(_id), "likes" :{"$gt:0"}}, {"$inc": {'likes': -1}}).modified_count == 1)
     
     def find_text(self, text) -> list:
-        return list(self.db.map.find({"$where": f"this.type == 'text' && this.content.includes('{text}')"}))
+        return list(self.db.map.find({"$where": f"this.text.includes('{text}')"}))
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
@@ -78,4 +78,5 @@ class Database:
         for test in result:
             test['_id'] = str(test['_id'])
         return result
-    
+
+
