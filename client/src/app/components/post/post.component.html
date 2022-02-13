@@ -12,4 +12,8 @@
     [style.font-size.px]="getFontSize()"
     [style.line-height.px]="getFontSize()"
     >{{ this.post.text }}</p>
+    <audio *ngIf="this.post.sound.length > 0" controls>
+        <source [src]="this.soundUrl">
+      Your browser does not support the audio element.
+      </audio>
 </div>

@@ -11,9 +11,11 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class AddPostComponent {
 
     public text: string = '';
-	  public img: string = '';
+	public img: string = '';
     public imgUrl: string = '';
-	  public verticalAlign: string = 'center';
+    public sound: string = '';
+    public soundUrl: string = '';
+	public verticalAlign: string = 'center';
 
     constructor(private dialogRef: MatDialogRef<AddPostComponent, Post>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
@@ -25,23 +27,40 @@ export class AddPostComponent {
         if (this.text === "")
             this.dialogRef.close();
 
-        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', 'text', this.img, this.verticalAlign);
+        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', 'text', this.img, this.sound, this.verticalAlign);
         this.dialogRef.close(post);
     }
 
 	public onFileSelected(event: Event) {
 		let target = event.target as HTMLInputElement;
 		if (target.files && target.files[0]) {
-        var reader = new FileReader();
-        reader.readAsDataURL(target.files[0]);
-        reader.onload = (_event) => {
-          		this.img = reader.result as string;
-          			fetch(this.img).then((response)=>{
-            			response.blob().then((blob)=>{
-              				this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
-            		});
-          		});
-        	}
+            var reader = new FileReader();
+            reader.readAsDataURL(target.files[0]);
+            reader.onload = (_event) => {
+                console.log(this.img);
+              	this.img = reader.result as string;
+              		fetch(this.img).then((response)=>{
+                		response.blob().then((blob)=>{
+                			this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
+                	});
+              	});
+            }
+    	}
+	}
+
+    public onSoundSelected(event: Event) {
+		let target = event.target as HTMLInputElement;
+		if (target.files && target.files[0]) {
+            var reader = new FileReader();
+            reader.readAsDataURL(target.files[0]);
+            reader.onload = (_event) => {
+              	this.sound = reader.result as string;
+              		fetch(this.sound).then((response)=>{
+                		response.blob().then((blob)=>{
+                			this.soundUrl = URL.createObjectURL(blob)
+                	});
+              	});
+            }
     	}
 	}
 

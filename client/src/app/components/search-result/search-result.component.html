@@ -1,4 +1,5 @@
 <div [style.align-items]="this.post.textAlign" 
-    [style.background-image]="this.imgUrl">
+    [style.background-image]="this.imgUrl"
+    (click)="move()">
     <p [ngClass]="{'black-text' : this.post.img.length === 0, 'white-text' : this.post.img.length !== 0}">{{ this.post.text }}</p>
 </div>

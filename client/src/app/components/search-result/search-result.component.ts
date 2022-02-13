@@ -12,8 +12,8 @@ export class SearchResultComponent implements OnInit {
     @Input() public post: Post;
 
     public imgUrl: string;
+    
     constructor(private localisationService: LocalisationService) { 
-        console.log(this.post.textAlign);
     }
 
     ngOnInit(): void {

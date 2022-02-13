@@ -20,5 +20,7 @@
     <button mat-raised-button (click)="this.verticalAlign='start'"><mat-icon>vertical_align_top</mat-icon></button>
     <button mat-raised-button (click)="this.verticalAlign='center'"><mat-icon>vertical_align_center</mat-icon></button>
     <button mat-raised-button (click)="this.verticalAlign='end'"><mat-icon>vertical_align_bottom</mat-icon></button>
+    <audio *ngIf="this.sound.length > 0" controls><source [src]="this.soundUrl">Your browser does not support the audio element.</audio>
 </div>
-<input type="file" class="file-input" multiple accept="image/*" (change)="onFileSelected($event)" #fileUpload>
+<input type="file" class="file-input" multiple accept="image/*,audio/*" (change)="onFileSelected($event)" #fileUpload>
+<input type="file" class="file-input" multiple accept="image/*,audio/*" (change)="onSoundSelected($event)" #soundUpload>

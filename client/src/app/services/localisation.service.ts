@@ -47,6 +47,7 @@ export class LocalisationService {
 
     setOrigin(newOrigin: Point): void {
         this.worldViewport.origin = newOrigin;
+        console.log(newOrigin);
         this.updateViewport();
     }
 
