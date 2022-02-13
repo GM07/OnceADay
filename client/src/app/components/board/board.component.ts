@@ -4,8 +4,8 @@ import { PostService } from 'src/app/services/post.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { Viewport } from 'src/app/data/viewport';
-import { firstValueFrom } from 'rxjs';
 import { LocalisationService } from 'src/app/services/localisation.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-board',
@@ -18,8 +18,9 @@ export class BoardComponent {
     public dragStarted: Boolean = false;
     public newPostWorldPos: Point = new Point(0, 0);
     public zoomIncrement: number = 10;
+    public location64: string = '';
 
-    constructor(private postService: PostService, private localisationService: LocalisationService, public dialog: MatDialog) {
+    constructor(private postService: PostService, private localisationService: LocalisationService, private clipboard: Clipboard, public dialog: MatDialog) {
         postService.getPosts(this.localisationService.getExtendedViewport()).subscribe((posts: DataPost[]) => {
             console.log(posts);
             this.posts = posts.map(Post.fromDataPost);
@@ -49,6 +50,32 @@ export class BoardComponent {
 
     getWorldViewport(): Viewport {
         return this.localisationService.getViewport();
+    }
+
+    copyCoordinates(): void {
+        this.clipboard.copy(btoa(JSON.stringify(this.localisationService.getOrigin())));
+    }
+
+    teleport(): void {
+        if (this.location64.length > 0) {
+            try {
+                const coordinates = JSON.parse(atob(this.location64)) as Point;
+                console.log(coordinates);
+                this.localisationService.setOrigin(coordinates);
+            } catch (e) {
+                console.log('Could not parse location');
+            }
+        }
+        
+        this.location64 = '';
+    }
+
+    getCoordinateX(): number {
+        return Math.floor(this.getWorldViewport().origin.x);
+    }
+
+    getCoordinateY(): number {
+        return -Math.floor(this.getWorldViewport().origin.y);
     }
 
     @HostListener('wheel', ['$event'])

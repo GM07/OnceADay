@@ -2,7 +2,11 @@
     <app-post *ngFor="let post of this.posts" [post]="post" [boardViewport]="this.getWorldViewport()"></app-post>
 </div>
 <div id="coordinates">
-    <p>Coordinates : {{ this.getWorldViewport().origin.x }}, {{ -this.getWorldViewport().origin.y }} </p>
+    <form class="form-inline md-form mr-auto mb-4">
+        <input [(ngModel)]="location64" name="search-box" class="form-control mr-sm-2" type="text">
+        <button type="button" class="btn btn-success" (click)="teleport()">Teleport</button>
+    </form>
+    <button class="margin" type="button" class="btn btn-success" (click)="copyCoordinates()">Copy coordinates : {{ getCoordinateX() }}, {{ getCoordinateY() }} </button>
 </div>
 <div id="search">
     <app-search-text></app-search-text>

@@ -13,7 +13,12 @@
     bottom: 0;
     right: 0;
     font-size: 14px;
+    margin: 10px;
+    padding: 10px;
     color: black;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
 }
 
 #search {
@@ -21,5 +26,11 @@
     top: 0;
     right: 0;
     font-size: 14px;
+    margin: 10px;
+    padding: 10px;
     color: black;
+}
+
+.margin {
+    margin: 5px;
 }
