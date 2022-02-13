@@ -33,7 +33,7 @@ class Database:
             return str(id.inserted_id) 
 
         print("spot taken")
-        return "False"
+        return ""
 
     def get_all_blocks_in_range(self, min_x: int, max_x: int, min_y: int, max_y: int):
 
