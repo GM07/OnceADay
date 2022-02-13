@@ -37,7 +37,6 @@ export class AddPostComponent {
             var reader = new FileReader();
             reader.readAsDataURL(target.files[0]);
             reader.onload = (_event) => {
-                console.log(this.img);
               	this.img = reader.result as string;
               		fetch(this.img).then((response)=>{
                 		response.blob().then((blob)=>{

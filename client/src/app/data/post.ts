@@ -70,7 +70,6 @@ export class Post {
     }
 
     public static fromDataPost(data: DataPost): Post {
-        console.log(data.likes);
         return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.text, data._id, data.img, data.sound, data.textAlign);
     }
 

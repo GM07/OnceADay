@@ -21,14 +21,12 @@ export class BoardComponent {
 
     constructor(private postService: PostService, private localisationService: LocalisationService, public dialog: MatDialog) {
         postService.getPosts(this.localisationService.getExtendedViewport()).subscribe((posts: DataPost[]) => {
-            console.log(posts);
             this.posts = posts.map(Post.fromDataPost);
         });
         
         this.localisationService.fetchPosts.subscribe((viewport: Viewport) => {
             postService.getPosts(viewport).subscribe((posts: DataPost[]) => {
                 this.posts = posts.map(Post.fromDataPost);
-                console.log(this.posts)
             });
         });
     }
@@ -63,7 +61,6 @@ export class BoardComponent {
         event.preventDefault()
         this.newPostWorldPos = this.computeNewPostWorldPosition(new Point(event.clientX, event.clientY))
         if (event.button == 0) {
-            console.log('Creating post');
             this.openDialog()
         }
     }
@@ -111,7 +108,6 @@ export class BoardComponent {
             if (result !== undefined) {
                 this.postService.addPost(result).subscribe((id) => {
                     result.id = id;
-                    console.log('Creating post : ', result)
                     if (id.length > 0)
                         this.posts.push(result);
                 });
