@@ -52,6 +52,7 @@ export class PostComponent implements OnInit{
         });
         
         this.audio.src = this.post.sound;
+        this.audio.loop = true;
 
         fetch(this.post.img).then((response) => {
             response.blob().then((blob) => {
