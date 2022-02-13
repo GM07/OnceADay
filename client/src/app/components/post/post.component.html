@@ -2,13 +2,18 @@
     [style.left.px]="this.computeScreenPosition().x" 
     [style.height.px]="getSize()" 
     [style.width.px]="getSize()"
+    [style.align-items]="this.post.textAlign"
+    [style.z-index]="this.post.size"
     [style.background-image]="this.imgUrl">
-    <p *ngIf="this.post.type == 'text'"
+    <p 
+    [ngClass]="{'black-text' : this.post.img.length === 0, 'white-text' : this.post.img.length !== 0}"
     [style.max-width.px]="getSize()"
     [style.max-height.px]="getSize()"
     [style.font-size.px]="getFontSize()"
     [style.line-height.px]="getFontSize()"
-    [style.align-items]="this.post.textAlign"
-    
     >{{ this.post.text }}</p>
+    <audio *ngIf="this.post.sound.length > 0" controls>
+        <source [src]="this.soundUrl">
+      Your browser does not support the audio element.
+      </audio>
 </div>

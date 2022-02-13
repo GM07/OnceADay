@@ -14,6 +14,7 @@ export class PostComponent implements OnInit{
     @Input() public boardViewport: Viewport;
     public screenPosition: Point;
     public imgUrl: string = '';
+    public soundUrl: string = '';
     
     constructor(private postService: PostService) { }
 
@@ -23,6 +24,14 @@ export class PostComponent implements OnInit{
                   this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
             });
         });
+
+        fetch(this.post.sound).then((response) => {
+            console.log(response);
+            response.blob().then((blob) => {
+                this.soundUrl = URL.createObjectURL(blob) + ".mp3";
+                console.log(this.soundUrl)
+            })
+        })
     }
 
     computeScreenPosition() : Point {
@@ -32,9 +41,10 @@ export class PostComponent implements OnInit{
     }
 
     @HostListener('dblclick', ['$event'])
-    onDoubleClick(event: MouseEvent): void {
+    onClick(event: MouseEvent): void {
         console.log('liking : ' + this.post.id);
         this.postService.likePost(this.post.id).subscribe((result: string) => {
+            console.log(result)
             if (result) {
                 this.post.size++;
             }

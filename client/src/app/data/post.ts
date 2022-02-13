@@ -26,6 +26,7 @@ export interface DataPost {
     center_y: number;
     textAlign: string;
     img: string;
+    sound: string;
 }
 
 
@@ -38,12 +39,13 @@ export class Post {
     public type: string;
     public textAlign: string;
     public img: string;
+    public sound: string;
 
     // TODO ADD BACKGROUND COLOR
     // TODO ALLOW FOR IMAGES
     // TODO MUSIC ?
     
-    public constructor(worldPos: Point, size: number, text: string, id: string = '', type: string = 'text', img = '', textAlign = 'center') {
+    public constructor(worldPos: Point, size: number, text: string, id: string = '', type: string = 'text', img = '', sound = '', textAlign = 'center') {
         this.id = id;
         this.worldPosition = worldPos;
         this.size = size;
@@ -51,6 +53,7 @@ export class Post {
         this.type = type;
         this.img = img;
         this.textAlign = textAlign;
+        this.sound = sound
     }
 
     public toDataPost(): DataPost {
@@ -59,13 +62,16 @@ export class Post {
             center_y: this.worldPosition.y,
             likes: 0,
             text: this.text,
-            type: this.type
+            type: this.type,
+            img: this.img,
+            sound: this.sound,
+            textAlign: this.textAlign
         } as DataPost
     }
 
     public static fromDataPost(data: DataPost): Post {
         console.log(data.likes);
-        return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.text, data._id, data.type, data.img, data.textAlign);
+        return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.text, data._id, data.type, data.img, data.sound, data.textAlign);
     }
 
 

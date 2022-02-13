@@ -28,6 +28,7 @@ export class BoardComponent {
         this.localisationService.fetchPosts.subscribe((viewport: Viewport) => {
             postService.getPosts(viewport).subscribe((posts: DataPost[]) => {
                 this.posts = posts.map(Post.fromDataPost);
+                console.log(this.posts)
             });
         });
     }
@@ -110,6 +111,7 @@ export class BoardComponent {
             if (result !== undefined) {
                 this.postService.addPost(result).subscribe((id) => {
                     result.id = id;
+                    console.log('Creating post : ', result)
                     if (id.length > 0)
                         this.posts.push(result);
                 });

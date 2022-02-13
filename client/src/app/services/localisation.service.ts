@@ -30,6 +30,7 @@ export class LocalisationService {
         
         if (distance > Math.max(this.worldViewport.size.x, this.worldViewport.size.y) * this.EXTENDED_FACTOR / 4) {
             // Fetch new viewport
+            console.log('fetch');
             this.fetchPosts.emit(this.getExtendedViewport());
             this.lastFetchedViewport = this.worldViewport;
         } 
@@ -46,6 +47,8 @@ export class LocalisationService {
 
     setOrigin(newOrigin: Point): void {
         this.worldViewport.origin = newOrigin;
+        console.log(newOrigin);
+        this.updateViewport();
     }
 
     getOrigin(): Point {
