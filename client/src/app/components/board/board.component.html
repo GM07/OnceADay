@@ -1,8 +1,16 @@
+
 <div id="board" draggable="true">
     <app-post *ngFor="let post of this.posts" [post]="post" [boardViewport]="this.getWorldViewport()"></app-post>
 </div>
 <div id="coordinates">
     <p>Coordinates : {{ this.getWorldViewport().origin.x }}, {{ -this.getWorldViewport().origin.y }} </p>
+</div>
+<div id="popup">
+
+<app-popup>
+</app-popup>
+
+
 </div>
 <div id="search">
     <app-search-text></app-search-text>

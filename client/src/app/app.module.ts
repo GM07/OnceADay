@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpMethod, AuthModule } from '@auth0/auth0-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
@@ -16,6 +17,7 @@ import { SearchTextComponent } from './components/search-text/search-text.compon
 import { MatIconModule } from '@angular/material/icon'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchResultComponent } from './components/search-result/search-result.component';
+import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { SearchResultComponent } from './components/search-result/search-result.
     PostComponent,
     AddPostComponent,
     SearchTextComponent,
-    SearchResultComponent
+    SearchResultComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,13 @@ import { SearchResultComponent } from './components/search-result/search-result.
     MatInputModule,
     MatIconModule,
     NgbModule,
-  ],
+    AuthModule.forRoot({
+			domain: "dev-xf7ranoi.us.auth0.com",
+			clientId: "6mFKxcpnpQiSRhW6NTBSttrDT1hICDkL",
+			redirectUri: window.location.origin })
+
+
+  ] ,
   providers: [],
   bootstrap: [AppComponent]
 })

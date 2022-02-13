@@ -15,10 +15,17 @@ export class PostComponent implements OnInit{
     public screenPosition: Point;
     public imgUrl: string = '';
     public soundUrl: string = '';
-    
+
+
     constructor(private postService: PostService) { }
 
     ngOnInit(): void {
+
+      this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
+        this.postService.authenticated = res;
+      })
+
+
         fetch(this.post.img).then((response) => {
             response.blob().then((blob) => {
                   this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
@@ -43,6 +50,11 @@ export class PostComponent implements OnInit{
     @HostListener('dblclick', ['$event'])
     onClick(event: MouseEvent): void {
         console.log('liking : ' + this.post.id);
+
+        if(!this.postService.authenticated){
+          alert('You must login to like a post')
+          return
+        }
         this.postService.likePost(this.post.id).subscribe((result: string) => {
             console.log(result)
             if (result) {
@@ -62,13 +74,13 @@ export class PostComponent implements OnInit{
         let longestWordLen = 1;
         for (const word of words) {
             //TODO ADD constant to reprensent max word size before wrap
-            if (word.length <= 25 && longestWordLen < word.length) 
+            if (word.length <= 25 && longestWordLen < word.length)
                 longestWordLen = word.length;
         }
-        
+
         //Estimate where to start font size
         let fontSizeTotal = (this.getSize()) / Math.sqrt(this.post.text.length);
-        let fontSizeWord = this.getSize() / longestWordLen; 
+        let fontSizeWord = this.getSize() / longestWordLen;
 
         return Math.min(fontSizeTotal, fontSizeWord);
     }
