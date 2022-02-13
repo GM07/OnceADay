@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Post } from 'src/app/data/post';
 import { LocalisationService } from 'src/app/services/localisation.service';
 
@@ -15,5 +15,12 @@ export class SearchResultComponent {
 
     move(): void {
         this.localisationService.setOrigin(this.post.worldPosition);
+        this.localisationService.updateViewport();
     }
+
+    @HostListener('dblclick', ['$event'])
+    onDoubleClick(event: MouseEvent): void {
+        event.stopPropagation();
+    }
+
 }

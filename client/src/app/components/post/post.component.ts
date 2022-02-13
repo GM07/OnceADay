@@ -1,6 +1,7 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { Post, Point } from 'src/app/data/post';
 import { Viewport } from 'src/app/data/viewport';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-post',
@@ -13,6 +14,10 @@ export class PostComponent{
     @Input() public boardViewport: Viewport;
     public screenPosition: Point;
     
+    constructor(private postService: PostService) {
+        
+    }
+
     computeScreenPosition() : Point {
         const left = (this.post.worldPosition.x - this.boardViewport.getMinX()) * window.innerWidth / this.boardViewport.size.x;
         const top = (this.post.worldPosition.y - this.boardViewport.getMinY()) * window.innerHeight / this.boardViewport.size.y;
@@ -21,6 +26,12 @@ export class PostComponent{
 
     @HostListener('dblclick', ['$event'])
     onDoubleClick(event: MouseEvent): void {
+        console.log('liking : ' + this.post.id);
+        this.postService.likePost(this.post.id).subscribe((result: string) => {
+            if (result) {
+                this.post.size++;
+            }
+        }); // Normal that it crashes if liking a newly added post
         event.stopPropagation();
     }
 
@@ -45,3 +56,4 @@ export class PostComponent{
         return Math.min(fontSizeTotal, fontSizeWord);
     }
 }
+

@@ -104,11 +104,11 @@ export class BoardComponent {
             }
         });
 
-        dialogRef.afterClosed().subscribe(async result => {
+        dialogRef.afterClosed().subscribe(async (result: Post) => {
             if (result !== undefined) {
-                this.postService.addPost(result).subscribe((value) => {
-                    console.log('value');
-                    if (value == 'True')
+                this.postService.addPost(result).subscribe((id) => {
+                    result.id = id;
+                    if (id.length > 0)
                         this.posts.push(result);
                 });
             }
