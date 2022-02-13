@@ -13,7 +13,6 @@ export class SearchResultComponent implements OnInit {
 
     public imgUrl: string;
     constructor(private localisationService: LocalisationService) { 
-        console.log(this.post.textAlign);
     }
 
     ngOnInit(): void {

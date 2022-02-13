@@ -13,7 +13,7 @@
     <div class="action-buttons" mat-dialog-actions align="center">
         <button mat-raised-button (click)="this.cancel()">Cancel</button>
         <button type="file" mat-raised-button (click)="fileUpload.click()">Upload Image</button>
-        <button mat-raised-button (click)="this.add()">Add</button>
+        <button [disabled]="this.text.length === 0" mat-raised-button (click)="this.add()">Add</button>
     </div>
 </div>
 <div class="styling">
