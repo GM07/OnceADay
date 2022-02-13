@@ -1,4 +1,4 @@
-import { Component, HostListener} from '@angular/core';
+import { Component, HostListener, OnInit} from '@angular/core';
 import { DataPost, Point, Post } from 'src/app/data/post';
 import { PostService } from 'src/app/services/post.service';
 import { MatDialog, MatDialogActions } from '@angular/material/dialog';
@@ -13,7 +13,7 @@ import { KeyValue } from '@angular/common';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss']
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit {
 
     public posts: Map<string, Post> = new Map<string, Post>();
     public postsList: Post[] = [];
@@ -22,6 +22,12 @@ export class BoardComponent {
     public zoomIncrement: number = 10;
     public location64: string = '';
     public trackByIdentity = (index: number, item: KeyValue<string, Post>) => item.value.id;
+
+    ngOnInit(): void {
+        this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
+            this.postService.authenticated = res;
+        })
+    }
 
     constructor(private postService: PostService, private localisationService: LocalisationService, private clipboard: Clipboard, public dialog: MatDialog) {
         postService.getPosts(this.localisationService.getExtendedViewport()).subscribe((posts: DataPost[]) => {

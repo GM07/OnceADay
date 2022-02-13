@@ -42,11 +42,6 @@ export class PostComponent implements OnInit{
     constructor(private postService: PostService, private localisationService: LocalisationService) { }
 
     ngOnInit(): void {
-        
-        this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
-            this.postService.authenticated = res;
-        })
-        
         const source = timer(0, 1);
         source.subscribe(val => {
             const speedFactor = 1;
