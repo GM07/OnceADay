@@ -4,7 +4,6 @@ from pymongo import MongoClient
 
 from bson.objectid import ObjectId
 
-
 # Idea for like scale by the number of growth for all in a certain direction so that the proportions stay the same
 
 
@@ -63,6 +62,7 @@ class Database:
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
+<<<<<<< HEAD
         self.upload_block({ 'text': 'test0', 'likes': 0,
                           'center_x': 0, 'center_y': 0})
         self.upload_block({'type': 'text', 'text': 'test1', 'likes': 0,
@@ -71,6 +71,12 @@ class Database:
                           'center_x': 10, 'center_y': 0})
         self.upload_block({'type': 'text', 'text': 'test3', 'likes': 0,
                           'center_x': 0, 'center_y': 0})
+=======
+        self.upload_block({'text': 'test0', 'likes': 0, 'center_x': 0, 'center_y': 0})
+        self.upload_block({'text': 'test1', 'likes': 0, 'center_x': 5, 'center_y': 5})
+        self.upload_block({'text': 'test2', 'likes': 0, 'center_x': 10, 'center_y': 0})
+        self.upload_block({'text': 'test3', 'likes': 0, 'center_x': 0, 'center_y': 0})
+>>>>>>> d1d00b4986ead1c6cdcdbdafc54d98187cf9d644
 
         result = self.db.map.find()
 
@@ -81,4 +87,7 @@ class Database:
         for test in result:
             test['_id'] = str(test['_id'])
         return result
+<<<<<<< HEAD
 
+=======
+>>>>>>> d1d00b4986ead1c6cdcdbdafc54d98187cf9d644
