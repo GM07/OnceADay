@@ -57,7 +57,7 @@ export class AddPostComponent {
               	this.sound = reader.result as string;
               		fetch(this.sound).then((response)=>{
                 		response.blob().then((blob)=>{
-                			this.soundUrl = URL.createObjectURL(blob)
+                			this.soundUrl = URL.createObjectURL(blob);
                 	});
               	});
             }

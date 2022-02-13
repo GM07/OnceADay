@@ -34,4 +34,8 @@ export class Viewport {
         return this.getMinX() + '/' + this.getMaxX() + '/' + this.getMinY() + '/' + this.getMaxY()
     }
 
+    pointIn(point: Point, extend: Point = new Point(0, 0)): boolean {
+        return point.x + extend.x >= this.getMinX() && point.x - extend.x <= this.getMaxX() && point.y + extend.y >= this.getMinY() && point.y - extend.y <= this.getMaxY();
+    }
+
 }

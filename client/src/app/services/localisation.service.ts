@@ -10,6 +10,7 @@ export class LocalisationService {
     private worldViewport: Viewport;
     private lastFetchedViewport: Viewport;
     fetchPosts: EventEmitter<Viewport> = new EventEmitter();
+    worldOriginMoved: EventEmitter<Point> = new EventEmitter();
     private readonly EXTENDED_FACTOR = 2;
 
     constructor() { 
@@ -21,6 +22,7 @@ export class LocalisationService {
     moveOriginWithOffset(offset: Point): void {
         this.worldViewport.origin.x += offset.x;
         this.worldViewport.origin.y += offset.y;
+        this.worldOriginMoved.emit(this.worldViewport.origin);        
         
         this.updateViewport();
     }
@@ -47,7 +49,7 @@ export class LocalisationService {
 
     setOrigin(newOrigin: Point): void {
         this.worldViewport.origin = newOrigin;
-        console.log(newOrigin);
+        this.worldOriginMoved.emit(this.worldViewport.origin);        
         this.updateViewport();
     }
 
