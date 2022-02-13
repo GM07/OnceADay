@@ -1,6 +1,8 @@
 # pylint: skip-file
-from dataclasses import dataclass
-from pymongo import *
+
+from pymongo import MongoClient
+
+from bson.objectid import ObjectId
 
 
 # Idea for like scale by the number of growth for all in a certain direction so that the proportions stay the same
@@ -61,7 +63,7 @@ class Database:
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
-        self.upload_block({'type': 'text', 'text': 'test0', 'likes': 0,
+        self.upload_block({ 'text': 'test0', 'likes': 0,
                           'center_x': 0, 'center_y': 0})
         self.upload_block({'type': 'text', 'text': 'test1', 'likes': 0,
                           'center_x': 5, 'center_y': 5})
@@ -81,3 +83,6 @@ class Database:
         return result
 
 
+database = Database()
+database.test_get_all_blocks()
+database.add_like(database.db.map.find()[0]['_id'])
