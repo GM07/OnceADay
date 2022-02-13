@@ -11,8 +11,9 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class AddPostComponent {
 
     public text: string = '';
-	public img: string = '';
-	public verticalAlign: string = 'center';
+	  public img: string = '';
+    public imgUrl: string = '';
+	  public verticalAlign: string = 'center';
 
     constructor(private dialogRef: MatDialogRef<AddPostComponent, Post>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
@@ -22,36 +23,46 @@ export class AddPostComponent {
 
     public add(): void {
         if (this.text === "")
-          this.dialogRef.close();
+            this.dialogRef.close();
 
-        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text);
+        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', 'text', this.img, this.verticalAlign);
         this.dialogRef.close(post);
     }
 
 	public onFileSelected(event: Event) {
 		let target = event.target as HTMLInputElement;
-		if (target.files !== null)
-			this.img = "url("+URL.createObjectURL(target.files![0]) + ")";
+		if (target.files && target.files[0]) {
+        var reader = new FileReader();
+        reader.readAsDataURL(target.files[0]);
+        reader.onload = (_event) => {
+          		this.img = reader.result as string;
+          			fetch(this.img).then((response)=>{
+            			response.blob().then((blob)=>{
+              				this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
+            		});
+          		});
+        	}
+    	}
 	}
 
     getFontSize(): number {
-      // TODO This should be a constant
-      if (this.text.length === 0)
-        return 30;
+        // TODO This should be a constant
+        if (this.text.length === 0)
+            return 30;
 
-      //FINDS THE LONGEST WORD
-      const words = this.text.split(' ');
-      let longestWordLen = 1;
-      for (const word of words) {
-          //TODO ADD constant to reprensent max word size before wrap
-          if (longestWordLen < word.length) 
-              longestWordLen = word.length;
+        //FINDS THE LONGEST WORD
+        const words = this.text.split(' ');
+        let longestWordLen = 1;
+        for (const word of words) {
+            //TODO ADD constant to reprensent max word size before wrap
+            if (longestWordLen < word.length) 
+                longestWordLen = word.length;
       }
       
       //Estimate where to start font size
       //TODO - Put constants for size of pop-up
       let fontSizeTotal = 240 / Math.sqrt(this.text.length);
-      let fontSizeWord = 240 / longestWordLen * 2; 
+      let fontSizeWord = 240 / longestWordLen * 1.5; 
 
       return Math.min(fontSizeTotal, fontSizeWord);
     }

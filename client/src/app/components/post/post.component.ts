@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Post, Point } from 'src/app/data/post';
 import { Viewport } from 'src/app/data/viewport';
 import { PostService } from 'src/app/services/post.service';
@@ -8,14 +8,21 @@ import { PostService } from 'src/app/services/post.service';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent{
+export class PostComponent implements OnInit{
 
     @Input() public post: Post;
     @Input() public boardViewport: Viewport;
     public screenPosition: Point;
+    public imgUrl: string = '';
     
-    constructor(private postService: PostService) {
-        
+    constructor(private postService: PostService) { }
+    
+    ngOnInit(): void {
+        fetch(this.post.img).then((response) => {
+            response.blob().then((blob) => {
+                  this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
+            });
+        });
     }
 
     computeScreenPosition() : Point {
