@@ -8,42 +8,40 @@ import { Viewport } from '../data/viewport';
 export class LocalisationService {
 
     private worldViewport: Viewport;
-    private lastFetchedViewport: Viewport;
+    private clientViewport: Viewport;
     fetchPosts: EventEmitter<Viewport> = new EventEmitter();
     worldOriginMoved: EventEmitter<Point> = new EventEmitter();
     private readonly EXTENDED_FACTOR = 2;
+    private readonly STARTING_SIZE_FACTOR = 10;
 
     constructor() { 
-        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / 10, window.innerHeight / 10));
-        this.lastFetchedViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / 10, window.innerHeight / 10));
-        this.fetchPosts.emit(this.worldViewport);
+        this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / this.STARTING_SIZE_FACTOR, window.innerHeight / this.STARTING_SIZE_FACTOR));
+        this.clientViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / this.STARTING_SIZE_FACTOR, window.innerHeight / this.STARTING_SIZE_FACTOR));
+        this.fetchPosts.emit(this.getExtendedViewport());
     }
 
     moveOriginWithOffset(offset: Point): void {
         this.worldViewport.origin.x += offset.x;
         this.worldViewport.origin.y += offset.y;
         this.worldOriginMoved.emit(this.worldViewport.origin);        
-        
         this.updateViewport();
     }
-
+    
     updateViewport() {
-        const distance = this.worldViewport.origin.distanceWith(this.lastFetchedViewport.origin);
-        
-        if (distance > Math.max(this.worldViewport.size.x, this.worldViewport.size.y) * this.EXTENDED_FACTOR / 4) {
+        if (!this.clientViewport.pointIn(this.worldViewport.origin)) {
             // Fetch new viewport
             console.log('fetch');
             this.fetchPosts.emit(this.getExtendedViewport());
-            this.lastFetchedViewport = this.worldViewport;
-        } 
+            this.clientViewport = this.worldViewport.copy();
+        }
     }
 
     setSize(newSize: Point): void {
         this.worldViewport.size = newSize;
-        const ratio = this.worldViewport.getArea() / this.lastFetchedViewport.getArea();
-        if (ratio > 3) {
+        const ratio = this.worldViewport.getArea() / this.clientViewport.getArea();
+        if (ratio > Math.pow((this.EXTENDED_FACTOR - 1) / 2 + 1, 2)) {
             this.fetchPosts.emit(this.getExtendedViewport());
-            this.lastFetchedViewport = this.worldViewport;
+            this.clientViewport = this.worldViewport.copy();
         }
     }
 
