@@ -3,14 +3,33 @@ div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     height: 100px;
     width: 100px;
     margin: 5px;
     // background: url("https://media4.giphy.com/media/jUwpNzg9IcyrK/giphy.gif");
     // background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 p {
     word-wrap: break-word;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
 }
+
+.white-text {
+    text-shadow: 2px 2px #000000;
+    color: #ffffff;
+}
+
+.black-text {
+    color: #000000;
+}
+

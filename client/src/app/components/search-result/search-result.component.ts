@@ -7,15 +7,25 @@ import { LocalisationService } from 'src/app/services/localisation.service';
   templateUrl: './search-result.component.html',
   styleUrls: ['./search-result.component.scss']
 })
-export class SearchResultComponent {
+export class SearchResultComponent implements OnInit {
 
     @Input() public post: Post;
 
-    constructor(private localisationService: LocalisationService) { }
+    public imgUrl: string;
+    constructor(private localisationService: LocalisationService) { 
+        console.log(this.post.textAlign);
+    }
+
+    ngOnInit(): void {
+        fetch(this.post.img).then((response) => {
+            response.blob().then((blob) => {
+                  this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
+            });
+        });
+    }
 
     move(): void {
         this.localisationService.setOrigin(this.post.worldPosition);
-        this.localisationService.updateViewport();
     }
 
     @HostListener('dblclick', ['$event'])

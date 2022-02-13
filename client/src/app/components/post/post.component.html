@@ -3,6 +3,7 @@
     [style.height.px]="getSize()" 
     [style.width.px]="getSize()"
     [style.align-items]="this.post.textAlign"
+    [style.z-index]="this.post.size"
     [style.background-image]="this.imgUrl">
     <p 
     [ngClass]="{'black-text' : this.post.img.length === 0, 'white-text' : this.post.img.length !== 0}"

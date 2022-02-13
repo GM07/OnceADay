@@ -32,9 +32,10 @@ export class PostComponent implements OnInit{
     }
 
     @HostListener('dblclick', ['$event'])
-    onDoubleClick(event: MouseEvent): void {
+    onClick(event: MouseEvent): void {
         console.log('liking : ' + this.post.id);
         this.postService.likePost(this.post.id).subscribe((result: string) => {
+            console.log(result)
             if (result) {
                 this.post.size++;
             }

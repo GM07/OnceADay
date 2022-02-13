@@ -1,6 +1,6 @@
 <div>
     <div class="dialog" mat-dialog-content>
-        <div class="post" 
+        <div class="post" [ngClass]="{'black-text' : this.img.length === 0, 'white-text' : this.img.length !== 0}"
         (input)="onInput($event)"
         [style.font-size.px]="this.getFontSize()"
         [style.line-height.px]="this.getFontSize()"

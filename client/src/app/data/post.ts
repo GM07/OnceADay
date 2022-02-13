@@ -60,7 +60,6 @@ export class Post {
             likes: 0,
             text: this.text,
             type: this.type,
-            _id: this.id,
             img: this.img,
             textAlign: this.textAlign
         } as DataPost

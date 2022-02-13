@@ -1,3 +1,4 @@
-<div [style.background-image]="this.post.type == 'image' ? 'url(this.post.image)' : 'none'" (click)="move()">
-    <p *ngIf="this.post.type == 'text'">{{ this.post.text }}</p>
+<div [style.align-items]="this.post.textAlign" 
+    [style.background-image]="this.imgUrl">
+    <p [ngClass]="{'black-text' : this.post.img.length === 0, 'white-text' : this.post.img.length !== 0}">{{ this.post.text }}</p>
 </div>
