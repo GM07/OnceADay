@@ -82,6 +82,15 @@ class Database:
         for test in result:
             test['_id'] = str(test['_id'])
         return result
+    
+    def add_user_position(user)->None :
+        self.db.users.delete_one({"_id":user['_id']})
+        self.db.users.insert_one(user)
+        return "Added user position"
+    
+    def fetch_all_users():
+        return list(self.db.users.find())
+        
 
 # database = Database()
 # database.test_get_all_blocks()
