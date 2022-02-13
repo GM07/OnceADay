@@ -29,8 +29,6 @@ export class LocalisationService {
     
     updateViewport() {
         if (!this.clientViewport.pointIn(this.worldViewport.origin)) {
-            // Fetch new viewport
-            console.log('fetch');
             this.fetchPosts.emit(this.getExtendedViewport());
             this.clientViewport = this.worldViewport.copy();
         }

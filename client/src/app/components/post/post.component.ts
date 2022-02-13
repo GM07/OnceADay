@@ -54,12 +54,10 @@ export class PostComponent implements OnInit{
     
             this.localisationService.worldOriginMoved.subscribe((origin) => {
                 const pointInViewport = this.localisationService.getViewport().pointIn(this.post.worldPosition, new Point(this.post.size * 2, this.post.size * 2));
-                console.log(pointInViewport);
                 if (pointInViewport) {
                     const maxDistance = Math.max(this.localisationService.getViewport().size.x, this.localisationService.getViewport().size.y);
                     const volume = 0.25 * (maxDistance / 2 - origin.distanceWith(this.post.worldPosition)) / (maxDistance / 2);
                     this.audio.volume = clamp(volume, 0, 1);
-                    console.log('Volume : ' + volume);
                     this.audio.play();
                 } else {
                     this.audio.volume = 0;
@@ -68,15 +66,6 @@ export class PostComponent implements OnInit{
                     
             });
         }
-        // fetch(this.post.sound).then((response) => {
-        //     response.blob().then((blob) => {
-        //         this.soundUrl = URL.createObjectURL(blob);
-        //         console.log('test : ', this.soundUrl)
-        //     })
-        // })
-
-        
-
     }
 
     computeScreenPosition() : Point {
@@ -87,9 +76,7 @@ export class PostComponent implements OnInit{
 
     @HostListener('dblclick', ['$event'])
     onClick(event: MouseEvent): void {
-        console.log('liking : ' + this.post.id);
         this.postService.likePost(this.post.id).subscribe((result: string) => {
-            console.log(result)
             if (result) {
                 this.post.size++;
             }
