@@ -50,14 +50,30 @@ export class PostService {
     }
 
     getPostsByQuery(query: string): Observable<DataPost[]> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+            })
+        };
         const url = PostService.SEARCH_POSTS_ADDRESS + query;
-        return this.http.get<DataPost[]>(url).pipe();
+        return this.http.get<DataPost[]>(url, httpOptions).pipe();
     }
 
     // Will return all posts from origin.x - size.x / 2 to origin.x + size.x / 2
     getPosts(viewport: Viewport): Observable<DataPost[]> {
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+            })
+        };
         const url = PostService.GET_POSTS_ADDRESS + viewport.convertToUrl();
-        return this.http.get<DataPost[]>(url).pipe();
+        return this.http.get<DataPost[]>(url, httpOptions).pipe();
     }
 
     getRandomPosition(max: number = 2000): number {
