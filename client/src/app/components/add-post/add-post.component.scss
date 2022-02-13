@@ -10,9 +10,22 @@
     text-align: center;
     display: flex;
     justify-content: center;
-    align-items: center;
     word-wrap: break-word;
     white-space: normal;
+    background-size: cover;
+}
+
+:host {
+    display: flex;
+    flex-direction: row;
+}
+
+.styling {
+    height: 300px;
+    margin: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .post:empty::before {
@@ -20,6 +33,10 @@
     color: #8e8e8e;
 }
 
-button {
-    width: 75px;
+.action-buttons button {
+    min-width: 75px;
+}
+
+input {
+    display: none;
 }

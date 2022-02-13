@@ -27,8 +27,8 @@ class Database:
                                     || (((this.center_y > {min_y}) && (this.center_y < {max_y})) && ((this.center_x > {min_x}) && (this.center_x < {max_x})))"""}))
 
         if len(collisions) == 0:
-             self.db.map.insert_one(post)
-             return "True"
+            id= self.db.map.insert_one(post)
+            return str(id.inserted_id) 
 
         print("spot taken")
         return "False"

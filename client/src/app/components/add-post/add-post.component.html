@@ -1,13 +1,24 @@
-<div mat-dialog-content>
-    <div class="post" 
-    (input)="onInput($event)"
-    [style.font-size.px]="this.getFontSize()"
-    [style.line-height.px]="this.getFontSize()"
-    contenteditable="true"
-    data-placeholder="What's on your mind">
+<div>
+    <div class="dialog" mat-dialog-content>
+        <div class="post" 
+        (input)="onInput($event)"
+        [style.font-size.px]="this.getFontSize()"
+        [style.line-height.px]="this.getFontSize()"
+        contenteditable="true"
+        data-placeholder="What's on your mind"
+        [style.background-image]="this.img"
+        [style.align-items]="this.verticalAlign">
+        </div>
+    </div>
+    <div class="action-buttons" mat-dialog-actions align="center">
+        <button mat-raised-button (click)="this.cancel()">Cancel</button>
+        <button type="file" mat-raised-button (click)="fileUpload.click()">Upload Image</button>
+        <button mat-raised-button (click)="this.add()">Add</button>
     </div>
 </div>
-<div mat-dialog-actions align="center">
-    <button mat-raised-button (click)="this.cancel()">Cancel</button>
-    <button mat-raised-button (click)="this.add()">Add</button>
+<div class="styling">
+    <button mat-raised-button (click)="this.verticalAlign='start'"><mat-icon>vertical_align_top</mat-icon></button>
+    <button mat-raised-button (click)="this.verticalAlign='center'"><mat-icon>vertical_align_center</mat-icon></button>
+    <button mat-raised-button (click)="this.verticalAlign='end'"><mat-icon>vertical_align_bottom</mat-icon></button>
 </div>
+<input type="file" class="file-input" multiple accept="image/*" (change)="onFileSelected($event)" #fileUpload>

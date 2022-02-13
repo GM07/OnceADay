@@ -11,6 +11,8 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class AddPostComponent {
 
     public text: string = '';
+	public img: string = '';
+	public verticalAlign: string = 'center';
 
     constructor(private dialogRef: MatDialogRef<AddPostComponent, Post>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
@@ -25,6 +27,12 @@ export class AddPostComponent {
         const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text);
         this.dialogRef.close(post);
     }
+
+	public onFileSelected(event: Event) {
+		let target = event.target as HTMLInputElement;
+		if (target.files !== null)
+			this.img = "url("+URL.createObjectURL(target.files![0]) + ")";
+	}
 
     getFontSize(): number {
       // TODO This should be a constant
