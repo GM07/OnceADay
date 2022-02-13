@@ -4,8 +4,9 @@ import { PostService } from 'src/app/services/post.service';
 import { MatDialog, MatDialogActions } from '@angular/material/dialog';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { Viewport } from 'src/app/data/viewport';
-import { LocalisationService } from 'src/app/services/localisation.service';
+import { FetchEvent, LocalisationService } from 'src/app/services/localisation.service';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'app-board',
@@ -14,23 +15,49 @@ import { Clipboard } from '@angular/cdk/clipboard';
 })
 export class BoardComponent {
 
-    public posts: Post[] = []
+    public posts: Map<string, Post> = new Map<string, Post>();
+    public postsList: Post[] = [];
     public dragStarted: Boolean = false;
     public newPostWorldPos: Point = new Point(0, 0);
     public zoomIncrement: number = 10;
     public location64: string = '';
+    public trackByIdentity = (index: number, item: KeyValue<string, Post>) => item.value.id;
 
     constructor(private postService: PostService, private localisationService: LocalisationService, private clipboard: Clipboard, public dialog: MatDialog) {
         postService.getPosts(this.localisationService.getExtendedViewport()).subscribe((posts: DataPost[]) => {
-            this.posts = posts.map(Post.fromDataPost);
+
+            this.posts = new Map<string, Post>();
+            posts.forEach((data: DataPost) => {
+                const p: Post = Post.fromDataPost(data);
+                this.posts.set(p.id, p);
+            });
+
         });
 
-        this.localisationService.fetchPosts.subscribe((viewport: Viewport) => {
-            postService.getPosts(viewport).subscribe((posts: DataPost[]) => {
-                this.posts = posts.map(Post.fromDataPost);
+        this.localisationService.fetchPosts.subscribe((fetchEvent: FetchEvent) => {
+            console.log('fetch');
+            postService.getPosts(fetchEvent.viewport).subscribe((posts: DataPost[]) => {
+                if (fetchEvent.fetchByTimer) {
+                    posts.map(Post.fromDataPost).forEach((post: Post) => {
+                        if (!this.posts.has(post.id)) {
+                            this.posts.set(post.id, post);
+                            this.postsList.push(post)
+                        }
+                    })
+                } else {
+                    this.posts = new Map<string, Post>();
+                    posts.forEach((data: DataPost) => {
+                        const p: Post = Post.fromDataPost(data);
+                        this.posts.set(p.id, p);
+                    });
+                }
             });
         });
     }
+
+    trackByFn(index: number, item: Post) {    
+        return item.id;
+     }
 
     computeNewPostWorldPosition(screenMousePosition: Point) : Point {
 
@@ -140,7 +167,7 @@ export class BoardComponent {
                 this.postService.addPost(result).subscribe((id) => {
                     result.id = id;
                     if (id.length > 0)
-                        this.posts.push(result);
+                        this.posts.set(result.id, result);
                 });
             }
         });

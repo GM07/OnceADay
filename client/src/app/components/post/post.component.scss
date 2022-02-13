@@ -25,4 +25,18 @@ p {
     color: #000000;
 }
 
-// dasdasdasdasdaddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+.circleBase {
+    border-radius: 50%;
+    // behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+}
+
+.type1 {
+    position: absolute;
+    background-color: #FBE364;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: lightgrey;
+    border: 2px solid rgb(51, 51, 51);
+}

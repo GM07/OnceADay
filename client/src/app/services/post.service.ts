@@ -18,7 +18,7 @@ export class PostService {
     public static readonly LIKE_POST_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/like/'
     public authenticated:boolean = false;
 
-    constructor(private http: HttpClient, private localisationService: LocalisationService,public auth: AuthService) {}
+    constructor(private http: HttpClient, private localisationService: LocalisationService, public auth: AuthService) {}
 
     addPost(post: Post): Observable<string> {
         const httpOptions = {

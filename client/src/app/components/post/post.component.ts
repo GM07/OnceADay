@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { timer } from 'rxjs/internal/observable/timer';
 import { Post, Point } from 'src/app/data/post';
 import { Viewport } from 'src/app/data/viewport';
 import { LocalisationService } from 'src/app/services/localisation.service';
@@ -26,23 +27,37 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class PostComponent implements OnInit{
 
+    public static readonly MAX_RADIUS_SOUND = 700;
     @Input() public post: Post;
     @Input() public boardViewport: Viewport;
     public screenPosition: Point;
     public imgUrl: string = '';
     public soundUrl: string = '';
     public audio = new Audio();
-
-    constructor(private localisationService: LocalisationService ,private postService: PostService) {
-        
-    }
+    public currentRadius1: number = 0;
+    public currentRadius2: number = 0;
+    public currentOpacity1: number = 0;
+    public currentOpacity2: number = 0;
+    
+    constructor(private postService: PostService, private localisationService: LocalisationService) { }
 
     ngOnInit(): void {
+        
+        this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
+            this.postService.authenticated = res;
+        })
+        
+        const source = timer(0, 1);
+        source.subscribe(val => {
+            const speedFactor = 1;
+            this.currentRadius1 = speedFactor * val % PostComponent.MAX_RADIUS_SOUND;
+            this.currentRadius2 = (speedFactor * val + PostComponent.MAX_RADIUS_SOUND / 2) % PostComponent.MAX_RADIUS_SOUND;
+            this.currentOpacity1 = this.getOpacityOfWave(1);
+            this.currentOpacity2 = this.getOpacityOfWave(2);
+        });
+        
         this.audio.src = this.post.sound;
 
-        this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
-        this.postService.authenticated = res;
-        })
         fetch(this.post.img).then((response) => {
             response.blob().then((blob) => {
                   this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
@@ -58,9 +73,10 @@ export class PostComponent implements OnInit{
                 const pointInViewport = this.localisationService.getViewport().pointIn(this.post.worldPosition, new Point(this.post.size * 2, this.post.size * 2));
                 if (pointInViewport) {
                     const maxDistance = Math.max(this.localisationService.getViewport().size.x, this.localisationService.getViewport().size.y);
-                    const volume = 0.25 * (maxDistance / 2 - origin.distanceWith(this.post.worldPosition)) / (maxDistance / 2);
+                    const volume = 0.10 * (maxDistance / 2 - origin.distanceWith(this.post.worldPosition)) / (maxDistance / 2);
                     this.audio.volume = clamp(volume, 0, 1);
-                    this.audio.play();
+                    // if (!this.audio.played)
+                        // this.audio.play();
                 } else {
                     this.audio.volume = 0;
                     this.audio.pause();
@@ -68,6 +84,10 @@ export class PostComponent implements OnInit{
 
             });
         }
+    }
+
+    getOpacityOfWave(wave: number): number {
+        return -0.4 * ((wave == 1 ? this.currentRadius1 : this.currentRadius2)) / PostComponent.MAX_RADIUS_SOUND + 0.4;
     }
 
     computeScreenPosition() : Point {
