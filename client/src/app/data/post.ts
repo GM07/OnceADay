@@ -18,9 +18,9 @@ export class Point {
 
 export interface DataPost {
 
-    id: string;
+    _id: string;
     type: string;
-    content: string;
+    text: string;
     likes: number;
     center_x: number;
     center_y: number;
@@ -34,7 +34,7 @@ export class Post {
     public id: string;
     public worldPosition: Point;
     public size: number;
-    public content: string;
+    public text: string;
     public type: string;
     public textAlign: string;
     public img: string;
@@ -43,11 +43,11 @@ export class Post {
     // TODO ALLOW FOR IMAGES
     // TODO MUSIC ?
     
-    public constructor(worldPos: Point, size: number, content: string, id: string = '', type: string = 'text', img = '', textAlign = 'center') {
+    public constructor(worldPos: Point, size: number, text: string, id: string = '', type: string = 'text', img = '', textAlign = 'center') {
         this.id = id;
         this.worldPosition = worldPos;
         this.size = size;
-        this.content = content;
+        this.text = text;
         this.type = type;
         this.img = img;
         this.textAlign = textAlign;
@@ -58,14 +58,14 @@ export class Post {
             center_x: this.worldPosition.x,
             center_y: this.worldPosition.y,
             likes: 0,
-            content: this.content,
+            text: this.text,
             type: this.type
         } as DataPost
     }
 
     public static fromDataPost(data: DataPost): Post {
         console.log(data.likes);
-        return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.content, data.id, data.type, data.img, data.textAlign);
+        return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.text, data._id, data.type, data.img, data.textAlign);
     }
 
 

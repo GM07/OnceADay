@@ -16,7 +16,7 @@ export class PostComponent implements OnInit{
     public imgUrl: string = '';
     
     constructor(private postService: PostService) { }
-    
+
     ngOnInit(): void {
         fetch(this.post.img).then((response) => {
             response.blob().then((blob) => {
@@ -48,7 +48,7 @@ export class PostComponent implements OnInit{
 
     getFontSize(): number {
         //FINDS THE LONGEST WORD
-        const words = this.post.content.split(' ');
+        const words = this.post.text.split(' ');
         let longestWordLen = 1;
         for (const word of words) {
             //TODO ADD constant to reprensent max word size before wrap
@@ -57,7 +57,7 @@ export class PostComponent implements OnInit{
         }
         
         //Estimate where to start font size
-        let fontSizeTotal = (this.getSize()) / Math.sqrt(this.post.content.length);
+        let fontSizeTotal = (this.getSize()) / Math.sqrt(this.post.text.length);
         let fontSizeWord = this.getSize() / longestWordLen; 
 
         return Math.min(fontSizeTotal, fontSizeWord);

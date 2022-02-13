@@ -21,6 +21,7 @@ export class BoardComponent {
 
     constructor(private postService: PostService, private localisationService: LocalisationService, public dialog: MatDialog) {
         postService.getPosts(this.localisationService.getExtendedViewport()).subscribe((posts: DataPost[]) => {
+            console.log(posts);
             this.posts = posts.map(Post.fromDataPost);
         });
         
@@ -105,6 +106,7 @@ export class BoardComponent {
         });
 
         dialogRef.afterClosed().subscribe(async (result: Post) => {
+
             if (result !== undefined) {
                 this.postService.addPost(result).subscribe((id) => {
                     result.id = id;
