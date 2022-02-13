@@ -1,6 +1,6 @@
 # pylint: skip-file
 from pymongo import *
-from bson.objectid import ObjectId
+
 
 # Idea for like scale by the number of growth for all in a certain direction so that the proportions stay the same
 
@@ -48,7 +48,7 @@ class Database:
         #    {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': 1}})
         return self.db.missions.update_one({"_id": ObjectId(_id)}, {"$inc": {'likes': 1}}).modified_count == 1
 
-    def remove_like(self, __id) -> bool:
+    def remove_like(self, _id) -> bool:
        # self.db.missions.update_many(
        #     {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': -1}})
        # self.db.missions.update_many(
@@ -80,4 +80,3 @@ class Database:
         return result
 
 
-data
