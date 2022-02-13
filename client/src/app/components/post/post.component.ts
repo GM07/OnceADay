@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Post, Point } from 'src/app/data/post';
 import { Viewport } from 'src/app/data/viewport';
 
@@ -7,12 +7,21 @@ import { Viewport } from 'src/app/data/viewport';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent{
+export class PostComponent implements OnInit{
 
     @Input() public post: Post;
     @Input() public boardViewport: Viewport;
     public screenPosition: Point;
-    
+    public imgUrl:string = '';
+
+    ngOnInit(): void {
+        fetch(this.post.img).then((response)=>{
+            response.blob().then((blob)=>{
+                  this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
+            });
+        });
+    }
+
     computeScreenPosition() : Point {
         const left = (this.post.worldPosition.x - this.boardViewport.getMinX()) * window.innerWidth / this.boardViewport.size.x;
         const top = (this.post.worldPosition.y - this.boardViewport.getMinY()) * window.innerHeight / this.boardViewport.size.y;
