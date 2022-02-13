@@ -44,9 +44,7 @@ import { PopupComponent } from './components/popup/popup.component';
     AuthModule.forRoot({
 			domain: "dev-xf7ranoi.us.auth0.com",
 			clientId: "6mFKxcpnpQiSRhW6NTBSttrDT1hICDkL",
-			redirectUri: window.location.origin })
-
-
+			redirectUri: window.location.origin }),
   ] ,
   providers: [],
   bootstrap: [AppComponent]
