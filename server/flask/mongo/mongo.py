@@ -48,35 +48,30 @@ class Database:
         #   {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': 1}})
         #self.db.missions.update_many(
         #    {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': 1}})
-        return self.db.missions.update_one({"_id": ObjectId(_id)}, {"$inc": {'likes': 1}}).modified_count == 1
+        return self.db.map.update_one(
+            {"_id": ObjectId(_id)}, 
+            {"$inc": {'likes': 1}}
+        ).modified_count == 1
 
     def remove_like(self, _id) -> bool:
        # self.db.missions.update_many(
        #     {"$where": f"(this._id != {__id}) && (this.center_x > {center_x})"}, {"$inc": {'center_x': -1}})
        # self.db.missions.update_many(
        #     {"$where": f"(this._id != {__id}) && (this.center_y > {center_y})"}, {"$inc": {'center_y': -1}})
-        return str(self.db.missions.update_one({"_id": ObjectId(_id), "likes" :{"$gt:0"}}, {"$inc": {'likes': -1}}).modified_count == 1)
+        return str(self.db.map.update_one({"_id": ObjectId(_id)}, {"likes" :{"$gt:0"}}, {"$inc": {'likes': -1}}).modified_count == 1)
     
+    def remove_by_id(self, _id) -> bool:
+        return str(self.db.map.delete_one({"_id": ObjectId(_id)}))
+
     def find_text(self, text) -> list:
         return list(self.db.map.find({"$where": f"this.text.includes('{text}')"}))
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
-<<<<<<< HEAD
-        self.upload_block({ 'text': 'test0', 'likes': 0,
-                          'center_x': 0, 'center_y': 0})
-        self.upload_block({'type': 'text', 'text': 'test1', 'likes': 0,
-                          'center_x': 5, 'center_y': 5})
-        self.upload_block({'type': 'text', 'text': 'test2', 'likes': 0,
-                          'center_x': 10, 'center_y': 0})
-        self.upload_block({'type': 'text', 'text': 'test3', 'likes': 0,
-                          'center_x': 0, 'center_y': 0})
-=======
         self.upload_block({'text': 'test0', 'likes': 0, 'center_x': 0, 'center_y': 0})
         self.upload_block({'text': 'test1', 'likes': 0, 'center_x': 5, 'center_y': 5})
         self.upload_block({'text': 'test2', 'likes': 0, 'center_x': 10, 'center_y': 0})
         self.upload_block({'text': 'test3', 'likes': 0, 'center_x': 0, 'center_y': 0})
->>>>>>> d1d00b4986ead1c6cdcdbdafc54d98187cf9d644
 
         result = self.db.map.find()
 
@@ -87,7 +82,6 @@ class Database:
         for test in result:
             test['_id'] = str(test['_id'])
         return result
-<<<<<<< HEAD
 
-=======
->>>>>>> d1d00b4986ead1c6cdcdbdafc54d98187cf9d644
+# database = Database()
+# database.remove_by_id("62085d8fedeb6235df79ed3f")
