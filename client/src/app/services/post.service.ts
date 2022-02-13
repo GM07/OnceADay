@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angul
 import { CommunicationService } from './communication.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { LocalisationService } from './localisation.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,13 @@ export class PostService {
     public static readonly ADD_POSTS_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/notes'
     public static readonly SEARCH_POSTS_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/notes_by_text/'
     public static readonly LIKE_POST_ADDRESS = CommunicationService.serverAdress + ':' + CommunicationService.serverPort + '/like/'
+    public authenticated:boolean = false;
 
-    constructor(private http: HttpClient, private localisationService: LocalisationService) {}
+    constructor(private http: HttpClient, private localisationService: LocalisationService,public auth: AuthService) {}
 
     addPost(post: Post): Observable<string> {
         const httpOptions = {
-            headers: new HttpHeaders({ 
+            headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
@@ -36,7 +38,7 @@ export class PostService {
         const url = PostService.LIKE_POST_ADDRESS + postId;
 
         const httpOptions = {
-            headers: new HttpHeaders({ 
+            headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',

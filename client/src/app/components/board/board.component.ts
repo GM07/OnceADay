@@ -1,7 +1,7 @@
 import { Component, HostListener} from '@angular/core';
 import { DataPost, Point, Post } from 'src/app/data/post';
 import { PostService } from 'src/app/services/post.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogActions } from '@angular/material/dialog';
 import { AddPostComponent } from '../add-post/add-post.component';
 import { Viewport } from 'src/app/data/viewport';
 import { LocalisationService } from 'src/app/services/localisation.service';
@@ -24,7 +24,7 @@ export class BoardComponent {
         postService.getPosts(this.localisationService.getExtendedViewport()).subscribe((posts: DataPost[]) => {
             this.posts = posts.map(Post.fromDataPost);
         });
-        
+
         this.localisationService.fetchPosts.subscribe((viewport: Viewport) => {
             postService.getPosts(viewport).subscribe((posts: DataPost[]) => {
                 this.posts = posts.map(Post.fromDataPost);
@@ -41,7 +41,7 @@ export class BoardComponent {
     }
 
     updateViewport(valueX: number, valueY: number = 0): void {
-        
+
         const newSize = new Point(Math.max(1, this.localisationService.getSize().x + valueX), Math.max(1, this.localisationService.getSize().y + (window.innerHeight / window.innerWidth * valueX)));
         this.localisationService.setSize(newSize);
     }
@@ -64,7 +64,7 @@ export class BoardComponent {
                 console.log('Could not parse location');
             }
         }
-        
+
         this.location64 = '';
     }
 
@@ -86,6 +86,10 @@ export class BoardComponent {
     @HostListener('dblclick', ['$event'])
     onDoubleClick(event: MouseEvent): void {
         event.preventDefault()
+        if(!this.postService.authenticated){
+          alert('You must login to add a post')
+          return
+        }
         this.newPostWorldPos = this.computeNewPostWorldPosition(new Point(event.clientX, event.clientY))
         if (event.button == 0) {
             this.openDialog()
@@ -125,7 +129,7 @@ export class BoardComponent {
         const dialogRef = this.dialog.open(AddPostComponent, {
             panelClass: "add-post",
             data: {
-                x: this.newPostWorldPos.x, 
+                x: this.newPostWorldPos.x,
                 y: this.newPostWorldPos.y,
             }
         });

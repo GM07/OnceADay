@@ -1,0 +1,4 @@
+<div id="container">
+<button type="button" class="btn btn-dark popup" *ngIf="(auth.isAuthenticated$ | async) === false || (auth.isAuthenticated$ | async) === undefined" (click)="loginWithRedirect()" >Login</button>
+<button type="button" class="btn btn-dark popup" *ngIf="auth.isAuthenticated$ | async" (click)="logout()" >Logout</button>
+</div>
