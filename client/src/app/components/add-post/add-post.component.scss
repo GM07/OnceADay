@@ -31,6 +31,15 @@
     justify-content: space-around;
 }
 
+.textAlign {
+    display: flex;
+    flex-direction: column;
+}
+
+.textAlign button {
+    margin: 10px 0px;
+}
+
 .post:empty::before {
     content: attr(data-placeholder);
     color: #8e8e8e;

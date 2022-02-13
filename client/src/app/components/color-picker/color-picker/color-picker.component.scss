@@ -1,0 +1,35 @@
+div {
+    display: flex;
+}
+
+.color-icon {
+    justify-content: space-between;
+}
+.vertical {
+    flex-direction: column;
+}
+
+.buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.rgb-selectors {
+    display: flex;
+    justify-content: space-around;
+}
+
+button {
+    margin: 2.5px 0px;
+    width: 45%;
+}
+
+:host ::ng-deep mat-divider {
+    margin: 5px;
+}
+
+p {
+    margin: 0px;
+    text-align: center;
+}

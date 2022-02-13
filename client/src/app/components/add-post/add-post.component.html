@@ -1,13 +1,15 @@
 <div>
     <div class="dialog" mat-dialog-content>
-        <div class="post" [ngClass]="{'black-text' : this.img.length === 0, 'white-text' : this.img.length !== 0}"
+        <div class="post"
         (input)="onInput($event)"
         [style.font-size.px]="this.getFontSize()"
         [style.line-height.px]="this.getFontSize()"
         contenteditable="true"
         data-placeholder="What's on your mind"
         [style.background-image]="this.imgUrl"
-        [style.align-items]="this.verticalAlign">
+        [style.align-items]="this.verticalAlign"
+        [style.background-color]="this.colorService.primaryRgba"
+        [style.color]="this.colorService.secondaryRgba">
         </div>
     </div>
     <div class="action-buttons" mat-dialog-actions align="center">
@@ -18,9 +20,12 @@
     </div>
 </div>
 <div class="styling">
-    <button mat-raised-button (click)="this.verticalAlign='start'"><mat-icon>vertical_align_top</mat-icon></button>
-    <button mat-raised-button (click)="this.verticalAlign='center'"><mat-icon>vertical_align_center</mat-icon></button>
-    <button mat-raised-button (click)="this.verticalAlign='end'"><mat-icon>vertical_align_bottom</mat-icon></button>
+    <app-color-icon></app-color-icon>
+    <div class="textAlign">
+        <button mat-raised-button (click)="this.verticalAlign='start'"><mat-icon>vertical_align_top</mat-icon></button>
+        <button mat-raised-button (click)="this.verticalAlign='center'"><mat-icon>vertical_align_center</mat-icon></button>
+        <button mat-raised-button (click)="this.verticalAlign='end'"><mat-icon>vertical_align_bottom</mat-icon></button>
+    </div>
     <audio *ngIf="this.sound.length > 0" controls><source [src]="this.soundUrl">Your browser does not support the audio element.</audio>
 </div>
 <input type="file" class="file-input" multiple accept="image/*,audio/*" (change)="onFileSelected($event)" #fileUpload>

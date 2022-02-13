@@ -4,12 +4,13 @@
     [style.width.px]="getSize()"
     [style.align-items]="this.post.textAlign"
     [style.z-index]="this.post.size"
-    [style.background-image]="this.imgUrl">
-    <p 
-    [ngClass]="{'black-text' : this.post.img.length === 0, 'white-text' : this.post.img.length !== 0}"
+    [style.background-image]="this.imgUrl"
+    [style.background-color]="this.post.backgroundColor">
+    <p
     [style.max-width.px]="getSize()"
     [style.max-height.px]="getSize()"
     [style.font-size.px]="getFontSize()"
     [style.line-height.px]="getFontSize()"
+    [style.color]="this.post.textColor"
     >{{ this.post.text }}</p>
 </div>

@@ -1,0 +1,13 @@
+<div (keydown)="$event.stopPropagation()">
+    <label for="hex">Hex : </label>
+    <input
+        (keypress)="preventInvalid($event)"
+        (change)="onChange($event.target.value)"
+        [(ngModel)]="hex"
+        id="hex"
+        type="text"
+        maxlength="6"
+        value="{{ hex | uppercase }}"
+        size="6"
+    />
+</div>

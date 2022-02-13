@@ -1,0 +1,14 @@
+<div class="colors">
+    <div class="color">
+        <div (click)="changePrimaryColor()" class="primaryColor" [style.background]="colorService.primaryColor.rgbString"></div>
+        <h5>Background</h5>
+    </div>
+    <div class="color">
+        <div (click)="changeSecondaryColor()" class="secondaryColor" [style.background]="colorService.secondaryColor.rgbString"></div>
+        <h5>Text</h5>
+    </div>
+    <div class="menuTrigger" [matMenuTriggerFor]="ColorMenu" (menuClosed)="menuClosed()"></div>
+</div>
+<mat-menu #ColorMenu>
+    <app-color-picker (click)="$event.stopPropagation()" (closeMenuEvent)="closeMenu()"></app-color-picker>
+</mat-menu>

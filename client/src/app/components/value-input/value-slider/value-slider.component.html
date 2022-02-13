@@ -1,0 +1,5 @@
+<div (keydown)="$event.stopPropagation()">
+    <label for="name"> {{ label }}: </label>
+    <p>{{ value | number: '1.2-2' }}</p>
+</div>
+<mat-slider (input)="onSliderChange($event)" min="{{ min }}" max="{{ max }}" value="{{ value }}" step="{{ step }}"></mat-slider>

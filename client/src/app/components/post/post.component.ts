@@ -34,7 +34,7 @@ export class PostComponent implements OnInit{
     public audio = new Audio();
 
     constructor(private localisationService: LocalisationService ,private postService: PostService) {
-
+        
     }
 
     ngOnInit(): void {

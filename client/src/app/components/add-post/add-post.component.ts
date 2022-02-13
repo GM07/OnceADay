@@ -2,6 +2,9 @@ import { Component, Inject, HostListener } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Point, Post } from 'src/app/data/post';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { ColorService } from 'src/app/services/color/color.service';
+import { Color } from 'src/app/data/color';
+import { HexColors } from 'src/app/data/hex-colors';
 
 @Component({
   selector: 'app-add-post',
@@ -19,7 +22,10 @@ export class AddPostComponent {
     public soundUrl: string = '';
 	public verticalAlign: string = 'center';
 
-    constructor(private dialogRef: MatDialogRef<AddPostComponent, Post>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+    constructor(private dialogRef: MatDialogRef<AddPostComponent, Post>, @Inject(MAT_DIALOG_DATA) public data: any, public colorService: ColorService) {
+        colorService.primaryColor = Color.hexToRgb("FBE364");
+        colorService.secondaryColor = Color.hexToRgb("000000")
+    }
 
     public cancel(): void {
         this.dialogRef.close();
@@ -29,7 +35,7 @@ export class AddPostComponent {
         if (this.text === "")
             this.dialogRef.close();
 
-        const post: Post = new Post(new Point(this.data['x'], this.data['y']), AddPostComponent.DEFAULT_SIZE, this.text, '', this.img, this.sound, this.verticalAlign);
+        const post: Post = new Post(new Point(this.data['x'], this.data['y']), AddPostComponent.DEFAULT_SIZE, this.text, '', this.img, this.sound, this.verticalAlign, this.colorService.primaryRgba, this.colorService.secondaryRgba);
         this.dialogRef.close(post);
     }
 

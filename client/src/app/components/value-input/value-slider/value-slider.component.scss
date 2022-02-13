@@ -1,0 +1,20 @@
+div {
+    display: flex;
+    justify-content: space-between;
+}
+
+:host ::ng-deep mat-slider,
+:host ::ng-deep .mat-slider-wrapper {
+    width: 90%;
+    padding: 0px;
+}
+
+p {
+    margin: 0px;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 10px;
+}

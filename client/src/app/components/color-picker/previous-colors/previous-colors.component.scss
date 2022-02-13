@@ -1,0 +1,20 @@
+.parent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 98%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+.previousColor {
+    border: 1px solid black;
+    height: 30px;
+    width: 15%;
+    margin: 1%;
+}
+
+p {
+    margin: 10px 10px 0px 10px;
+}

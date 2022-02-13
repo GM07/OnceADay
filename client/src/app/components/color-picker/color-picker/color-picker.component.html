@@ -1,0 +1,51 @@
+<p>{{ this.colorService.changePrimary ? 'Background Color' : 'Text Color' }}</p>
+<mat-divider></mat-divider>
+<div>
+    <app-color-palette></app-color-palette>
+    <app-color-slider></app-color-slider>
+</div>
+<div class="color-icon">
+    <app-color-preview></app-color-preview>
+    <app-color-textbox [hex]="this.colorService.selectedColor.hexString" (hexColorChangeEvent)="hexValueChange($event)"></app-color-textbox>
+</div>
+
+<mat-divider></mat-divider>
+<div class="rgb-selectors">
+    <app-hex-textbox
+        (hexChangeEvent)="hexRGBChange($event)"
+        [label]="'R'"
+        [hex]="this.colorService.selectedColor.hexString.substr(0, 2)"
+        [length]="'2'"
+    ></app-hex-textbox>
+    <app-hex-textbox
+        (hexChangeEvent)="hexRGBChange($event)"
+        [label]="'G'"
+        [hex]="this.colorService.selectedColor.hexString.substr(2, 2)"
+        [length]="'2'"
+    ></app-hex-textbox>
+    <app-hex-textbox
+        (hexChangeEvent)="hexRGBChange($event)"
+        [label]="'B'"
+        [hex]="this.colorService.selectedColor.hexString.substr(4, 2)"
+        [length]="'2'"
+    ></app-hex-textbox>
+</div>
+<mat-divider></mat-divider>
+
+<app-value-slider
+    (valueChangeEvent)="valueChange($event)"
+    [label]="'Alpha'"
+    [min]="0"
+    [max]="1"
+    [value]="this.colorService.selectedAlpha"
+    [step]="0.01"
+></app-value-slider>
+
+<mat-divider></mat-divider>
+
+<app-previous-colors></app-previous-colors>
+
+<div class="buttons">
+    <button (click)="closeColorPicker()" mat-raised-button>Ok</button>
+    <button (click)="cancelColorChange()" mat-raised-button>Annuler</button>
+</div>

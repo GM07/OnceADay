@@ -28,6 +28,8 @@ export interface DataPost {
     img: string;
     sound: string;
     search_query: string;
+    textColor: string;
+    backgroundColor: string;
 }
 
 
@@ -41,12 +43,10 @@ export class Post {
     public img: string;
     public sound: string;
     public search_query: string;
-
-    // TODO ADD BACKGROUND COLOR
-    // TODO ALLOW FOR IMAGES
-    // TODO MUSIC ?
+    public textColor: string;
+    public backgroundColor: string;
     
-    public constructor(worldPos: Point, size: number, text: string, id: string = '', img = '', sound = '', textAlign = 'center') {
+    public constructor(worldPos: Point, size: number, text: string, id: string = '', img = '', sound = '', textAlign = 'center', backgroundColor="#FBE364", textColor="#000000") {
         this.id = id;
         this.worldPosition = worldPos;
         this.size = size;
@@ -55,6 +55,8 @@ export class Post {
         this.textAlign = textAlign;
         this.sound = sound
         this.search_query = text.toLowerCase();
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
     }
 
     public toDataPost(): DataPost {
@@ -66,12 +68,14 @@ export class Post {
             img: this.img,
             sound: this.sound,
             textAlign: this.textAlign,
-            search_query: this.search_query
+            search_query: this.search_query,
+            backgroundColor: this.backgroundColor,
+            textColor: this.textColor,
         } as DataPost
     }
 
     public static fromDataPost(data: DataPost): Post {
-        return new Post(new Point(data.center_x, data.center_y), AddPostComponent.DEFAULT_SIZE + data.likes, data.text, data._id, data.img, data.sound, data.textAlign);
+        return new Post(new Point(data.center_x, data.center_y), AddPostComponent.DEFAULT_SIZE + data.likes, data.text, data._id, data.img, data.sound, data.textAlign, data.backgroundColor, data.textColor);
     }
 
 
