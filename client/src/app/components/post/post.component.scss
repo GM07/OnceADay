@@ -1,11 +1,9 @@
-div {
+.post {
     position: absolute;
-    background-color: #FBE364;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    // background: url("https://media4.giphy.com/media/jUwpNzg9IcyrK/giphy.gif");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -16,18 +14,8 @@ p {
     margin: 0px;
 }
 
-.white-text {
-    text-shadow: 2px 2px #000000;
-    color: #ffffff;
-}
-
-.black-text {
-    color: #000000;
-}
-
 .circleBase {
     border-radius: 50%;
-    // behavior: url(PIE.htc); /* remove if you don't care about IE8 */
 }
 
 .type1 {
