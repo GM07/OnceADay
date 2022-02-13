@@ -62,6 +62,7 @@ export class PostComponent implements OnInit{
         if (this.post.sound.length > 0) {
             this.audio.load();
             this.audio.play();
+            this.audio.loop = true;
             this.audio.volume = 0;
             const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
 
