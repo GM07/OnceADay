@@ -1,4 +1,5 @@
 # pylint: skip-file
+from dataclasses import dataclass
 from pymongo import *
 
 
@@ -60,13 +61,13 @@ class Database:
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
-        self.upload_block({'type': 'text', 'content': 'test0', 'likes': 0,
+        self.upload_block({'type': 'text', 'text': 'test0', 'likes': 0,
                           'center_x': 0, 'center_y': 0})
-        self.upload_block({'type': 'text', 'content': 'test1', 'likes': 0,
+        self.upload_block({'type': 'text', 'text': 'test1', 'likes': 0,
                           'center_x': 5, 'center_y': 5})
-        self.upload_block({'type': 'text', 'content': 'test2', 'likes': 0,
+        self.upload_block({'type': 'text', 'text': 'test2', 'likes': 0,
                           'center_x': 10, 'center_y': 0})
-        self.upload_block({'type': 'text', 'content': 'test3', 'likes': 0,
+        self.upload_block({'type': 'text', 'text': 'test3', 'likes': 0,
                           'center_x': 0, 'center_y': 0})
 
         result = self.db.map.find()
