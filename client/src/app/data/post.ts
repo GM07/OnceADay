@@ -19,7 +19,6 @@ export class Point {
 export interface DataPost {
 
     _id: string;
-    type: string;
     text: string;
     likes: number;
     center_x: number;
@@ -27,6 +26,7 @@ export interface DataPost {
     textAlign: string;
     img: string;
     sound: string;
+    search_query: string;
 }
 
 
@@ -36,24 +36,24 @@ export class Post {
     public worldPosition: Point;
     public size: number;
     public text: string;
-    public type: string;
     public textAlign: string;
     public img: string;
     public sound: string;
+    public search_query: string;
 
     // TODO ADD BACKGROUND COLOR
     // TODO ALLOW FOR IMAGES
     // TODO MUSIC ?
     
-    public constructor(worldPos: Point, size: number, text: string, id: string = '', type: string = 'text', img = '', sound = '', textAlign = 'center') {
+    public constructor(worldPos: Point, size: number, text: string, id: string = '', img = '', sound = '', textAlign = 'center') {
         this.id = id;
         this.worldPosition = worldPos;
         this.size = size;
         this.text = text;
-        this.type = type;
         this.img = img;
         this.textAlign = textAlign;
         this.sound = sound
+        this.search_query = text.toLowerCase();
     }
 
     public toDataPost(): DataPost {
@@ -62,16 +62,15 @@ export class Post {
             center_y: this.worldPosition.y,
             likes: 0,
             text: this.text,
-            type: this.type,
             img: this.img,
             sound: this.sound,
-            textAlign: this.textAlign
+            textAlign: this.textAlign,
+            search_query: this.search_query
         } as DataPost
     }
 
     public static fromDataPost(data: DataPost): Post {
-        console.log(data.likes);
-        return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.text, data._id, data.type, data.img, data.sound, data.textAlign);
+        return new Post(new Point(data.center_x, data.center_y), 10 + data.likes, data.text, data._id, data.img, data.sound, data.textAlign);
     }
 
 

@@ -1,7 +1,23 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Post, Point } from 'src/app/data/post';
 import { Viewport } from 'src/app/data/viewport';
+import { LocalisationService } from 'src/app/services/localisation.service';
 import { PostService } from 'src/app/services/post.service';
+
+@Pipe({
+    name: 'safeHtml'
+  })
+  export class SafeHtmlPipe implements PipeTransform {
+
+    constructor(private sanitizer: DomSanitizer) {
+    }
+
+    transform(value: any, args?: any): any {
+      return this.sanitizer.bypassSecurityTrustHtml(value);
+    }
+
+  }
 
 @Component({
   selector: 'app-post',
@@ -15,30 +31,43 @@ export class PostComponent implements OnInit{
     public screenPosition: Point;
     public imgUrl: string = '';
     public soundUrl: string = '';
+    public audio = new Audio();
 
+    constructor(private localisationService: LocalisationService ,private postService: PostService) {
 
-    constructor(private postService: PostService) { }
+    }
 
     ngOnInit(): void {
+        this.audio.src = this.post.sound;
 
-      this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
+        this.postService.auth.isAuthenticated$.subscribe((res:boolean)=>{
         this.postService.authenticated = res;
-      })
-
-
+        })
         fetch(this.post.img).then((response) => {
             response.blob().then((blob) => {
                   this.imgUrl = "url(" + URL.createObjectURL(blob) + ")"
             });
         });
+        if (this.post.sound.length > 0) {
+            this.audio.load();
+            this.audio.play();
+            this.audio.volume = 0;
+            const clamp = (num: number, min: number, max: number) => Math.min(Math.max(num, min), max);
 
-        fetch(this.post.sound).then((response) => {
-            console.log(response);
-            response.blob().then((blob) => {
-                this.soundUrl = URL.createObjectURL(blob) + ".mp3";
-                console.log(this.soundUrl)
-            })
-        })
+            this.localisationService.worldOriginMoved.subscribe((origin) => {
+                const pointInViewport = this.localisationService.getViewport().pointIn(this.post.worldPosition, new Point(this.post.size * 2, this.post.size * 2));
+                if (pointInViewport) {
+                    const maxDistance = Math.max(this.localisationService.getViewport().size.x, this.localisationService.getViewport().size.y);
+                    const volume = 0.25 * (maxDistance / 2 - origin.distanceWith(this.post.worldPosition)) / (maxDistance / 2);
+                    this.audio.volume = clamp(volume, 0, 1);
+                    this.audio.play();
+                } else {
+                    this.audio.volume = 0;
+                    this.audio.pause();
+                }
+
+            });
+        }
     }
 
     computeScreenPosition() : Point {
@@ -49,14 +78,13 @@ export class PostComponent implements OnInit{
 
     @HostListener('dblclick', ['$event'])
     onClick(event: MouseEvent): void {
-        console.log('liking : ' + this.post.id);
+
 
         if(!this.postService.authenticated){
           alert('You must login to like a post')
           return
         }
         this.postService.likePost(this.post.id).subscribe((result: string) => {
-            console.log(result)
             if (result) {
                 this.post.size++;
             }

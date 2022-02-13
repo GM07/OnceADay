@@ -27,7 +27,7 @@ export class AddPostComponent {
         if (this.text === "")
             this.dialogRef.close();
 
-        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', 'text', this.img, this.sound, this.verticalAlign);
+        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', this.img, this.sound, this.verticalAlign);
         this.dialogRef.close(post);
     }
 
@@ -37,7 +37,6 @@ export class AddPostComponent {
             var reader = new FileReader();
             reader.readAsDataURL(target.files[0]);
             reader.onload = (_event) => {
-                console.log(this.img);
               	this.img = reader.result as string;
               		fetch(this.img).then((response)=>{
                 		response.blob().then((blob)=>{
@@ -57,7 +56,7 @@ export class AddPostComponent {
               	this.sound = reader.result as string;
               		fetch(this.sound).then((response)=>{
                 		response.blob().then((blob)=>{
-                			this.soundUrl = URL.createObjectURL(blob)
+                			this.soundUrl = URL.createObjectURL(blob);
                 	});
               	});
             }
@@ -80,8 +79,8 @@ export class AddPostComponent {
       
       //Estimate where to start font size
       //TODO - Put constants for size of pop-up
-      let fontSizeTotal = 240 / Math.sqrt(this.text.length);
-      let fontSizeWord = 240 / longestWordLen * 1.5; 
+      let fontSizeTotal = 440 / Math.sqrt(this.text.length);
+      let fontSizeWord = 440 / longestWordLen * 1.5; 
 
       return Math.min(fontSizeTotal, fontSizeWord);
     }

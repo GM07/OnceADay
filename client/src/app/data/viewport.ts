@@ -10,6 +10,10 @@ export class Viewport {
         this.size = size;
     }
 
+    copy(): Viewport {
+        return new Viewport(new Point(this.origin.x, this.origin.y), new Point(this.size.x, this.size.y))
+    }
+
     getMinX(): number {
         return this.origin.x - this.size.x / 2;
     }
@@ -32,6 +36,10 @@ export class Viewport {
 
     convertToUrl(): string {
         return this.getMinX() + '/' + this.getMaxX() + '/' + this.getMinY() + '/' + this.getMaxY()
+    }
+
+    pointIn(point: Point, extend: Point = new Point(0, 0)): boolean {
+        return point.x + extend.x >= this.getMinX() && point.x - extend.x <= this.getMaxX() && point.y + extend.y >= this.getMinY() && point.y - extend.y <= this.getMaxY();
     }
 
 }

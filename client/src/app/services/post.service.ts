@@ -51,7 +51,6 @@ export class PostService {
 
     getPostsByQuery(query: string): Observable<DataPost[]> {
         const url = PostService.SEARCH_POSTS_ADDRESS + query;
-        console.log(url);
         return this.http.get<DataPost[]>(url).pipe();
     }
 

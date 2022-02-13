@@ -64,14 +64,14 @@ class Database:
         return str(self.db.map.delete_one({"_id": ObjectId(_id)}))
 
     def find_text(self, text) -> list:
-        return list(self.db.map.find({"$where": f"this.text.includes('{text}')"}))
+        return list(self.db.map.find({"$where": f"this.search_query.includes('{text}')"}))
 
     def test_get_all_blocks(self):
         self.db.drop_collection('map')
-        self.upload_block({'text': 'test0', 'likes': 0, 'center_x': 0, 'center_y': 0})
-        self.upload_block({'text': 'test1', 'likes': 0, 'center_x': 5, 'center_y': 5})
-        self.upload_block({'text': 'test2', 'likes': 0, 'center_x': 10, 'center_y': 0})
-        self.upload_block({'text': 'test3', 'likes': 0, 'center_x': 0, 'center_y': 0})
+        self.upload_block({'text': 'test0', 'search_query': 'test0', 'likes': 0, 'center_x': 0, 'center_y': 0})
+        self.upload_block({'text': 'test1', 'search_query': 'test1', 'likes': 0, 'center_x': 5, 'center_y': 5})
+        self.upload_block({'text': 'test2', 'search_query': 'test2', 'likes': 0, 'center_x': 10, 'center_y': 0})
+        self.upload_block({'text': 'test3', 'search_query': 'test3', 'likes': 0, 'center_x': 0, 'center_y': 0})
 
         result = self.db.map.find()
 
@@ -84,4 +84,6 @@ class Database:
         return result
 
 # database = Database()
+# database.test_get_all_blocks()
 # database.remove_by_id("62085d8fedeb6235df79ed3f")
+# database.remove_by_id("620864b196e71757fe7bae78")

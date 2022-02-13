@@ -5,7 +5,7 @@ import { HttpMethod, AuthModule } from '@auth0/auth0-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BoardComponent } from './components/board/board.component';
-import { PostComponent } from './components/post/post.component';
+import { PostComponent, SafeHtmlPipe } from './components/post/post.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -27,7 +27,11 @@ import { PopupComponent } from './components/popup/popup.component';
     AddPostComponent,
     SearchTextComponent,
     SearchResultComponent,
+<<<<<<< HEAD
     PopupComponent
+=======
+    SafeHtmlPipe
+>>>>>>> origin/main
   ],
   imports: [
     BrowserModule,
