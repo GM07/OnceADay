@@ -12,7 +12,7 @@ export class LocalisationService {
     fetchPosts: EventEmitter<Viewport> = new EventEmitter();
     worldOriginMoved: EventEmitter<Point> = new EventEmitter();
     private readonly EXTENDED_FACTOR = 2;
-    private readonly STARTING_SIZE_FACTOR = 10;
+    private readonly STARTING_SIZE_FACTOR = 4;
 
     constructor() { 
         this.worldViewport = new Viewport(new Point(0, 0), new Point(window.innerWidth / this.STARTING_SIZE_FACTOR, window.innerHeight / this.STARTING_SIZE_FACTOR));

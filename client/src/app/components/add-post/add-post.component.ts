@@ -10,6 +10,8 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 })
 export class AddPostComponent {
 
+    public static readonly DEFAULT_SIZE: number = 50;
+
     public text: string = '';
 	public img: string = '';
     public imgUrl: string = '';
@@ -27,7 +29,7 @@ export class AddPostComponent {
         if (this.text === "")
             this.dialogRef.close();
 
-        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', this.img, this.sound, this.verticalAlign);
+        const post: Post = new Post(new Point(this.data['x'], this.data['y']), AddPostComponent.DEFAULT_SIZE, this.text, '', this.img, this.sound, this.verticalAlign);
         this.dialogRef.close(post);
     }
 
