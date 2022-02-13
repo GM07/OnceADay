@@ -1,4 +1,5 @@
 # pylint: skip-file
+from crypt import methods
 from flask import jsonify, Flask, request
 from flask_cors import CORS
 from mongo.mongo import Database
@@ -42,6 +43,16 @@ def get_notes(min_x, max_x, min_y, max_y):
 def find_notes_by_text(text):
     mongo = Database()
     return json.dumps(mongo.serialize_list(mongo.find_text(text)))
+
+@APP.route('/users',methods=['POST'])
+def add_user():
+    mongo = Database()
+    return mongo.add_user_position(request.json)
+
+@APP.route('/users')
+def get_users():
+    mongo = Database()
+    return json.dumps(mongo.serialize_list(mongo.fetch_all_users()))
 
 if __name__ == '__main__':
     print('The backend is running on port 5000')
