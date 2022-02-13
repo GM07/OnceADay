@@ -27,11 +27,8 @@ import { PopupComponent } from './components/popup/popup.component';
     AddPostComponent,
     SearchTextComponent,
     SearchResultComponent,
-<<<<<<< HEAD
-    PopupComponent
-=======
+    PopupComponent,
     SafeHtmlPipe
->>>>>>> origin/main
   ],
   imports: [
     BrowserModule,
