@@ -12,20 +12,20 @@ class Database:
     def __init__(self) -> None:
         self.client = MongoClient('mongodb://127.0.0.1:27017/', fsync=True)
         self.db = self.client['admin']
-        self.default_size = 10
+        self.default_size = 50
 
     def upload_block(self, post):
-   
+        size = post['likes'] if 'likes' in post else self.default_size
 
-        min_x = post['center_x'] - self.default_size/2
-        min_y = post['center_y'] - self.default_size/2
-        max_x = post['center_x'] + self.default_size/2
-        max_y = post['center_y'] + self.default_size/2
+        min_x = post['center_x'] - size/2
+        min_y = post['center_y'] - size/2
+        max_x = post['center_x'] + size/2
+        max_y = post['center_y'] + size/2
 
-        collisions = list(self.db.map.find({"$where": f"""(((this.center_x - {self.default_size}/2 - this.likes/2) > {min_x} && (this.center_x - {self.default_size}/2 - this.likes/2) < {max_x}) 
-                                    || ((this.center_x  + {self.default_size}/2 + this.likes/2) > {min_x} && (this.center_x + {self.default_size}/2 + this.likes/2) < {max_x}))
-                                    && (((this.center_y -{self.default_size}/2 - this.likes/2) > {min_y} && (this.center_y - {self.default_size}/2 - this.likes/2) < {max_y} ) || 
-                                    (((this.center_y + {self.default_size}/2 + this.likes/2) > {min_y} && (this.center_y + {self.default_size}/2 + this.likes/2) < {max_y})))
+        collisions = list(self.db.map.find({"$where": f"""(((this.center_x - {size}/2 - this.likes/2) > {min_x} && (this.center_x - {size}/2 - this.likes/2) < {max_x}) 
+                                    || ((this.center_x  + {size}/2 + this.likes/2) > {min_x} && (this.center_x + {size}/2 + this.likes/2) < {max_x}))
+                                    && (((this.center_y -{size}/2 - this.likes/2) > {min_y} && (this.center_y - {size}/2 - this.likes/2) < {max_y} ) || 
+                                    (((this.center_y + {size}/2 + this.likes/2) > {min_y} && (this.center_y + {size}/2 + this.likes/2) < {max_y})))
                                     || (((this.center_y > {min_y}) && (this.center_y < {max_y})) && ((this.center_x > {min_x}) && (this.center_x < {max_x})))"""}))
 
         if len(collisions) == 0:
