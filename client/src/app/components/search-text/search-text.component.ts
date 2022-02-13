@@ -19,7 +19,10 @@ export class SearchTextComponent {
         this.postService.getPostsByQuery(this.query.toLowerCase()).subscribe((dataPost: DataPost[]) => {
             this.results = dataPost.map(Post.fromDataPost);
         });
+    }
 
-        console.log(this.results);
+    keyPress(event: KeyboardEvent) {
+        if (event.key == "Enter")
+            this.search();
     }
 }

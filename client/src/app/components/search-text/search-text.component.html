@@ -1,6 +1,6 @@
 <div id="container">
     <form class="form-inline md-form mr-auto mb-4">
-        <input [(ngModel)]="query" name="search-box" class="form-control mr-sm-2" type="text">
+        <input (keypress)="keyPress($event)" [(ngModel)]="query" name="search-box" class="form-control mr-sm-2" type="text">
         <button type="button" class="btn btn-success" (click)="search()">Search</button>
     </form>
     <div id="results">
