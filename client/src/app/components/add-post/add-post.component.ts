@@ -27,7 +27,7 @@ export class AddPostComponent {
         if (this.text === "")
             this.dialogRef.close();
 
-        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', 'text', this.img, this.sound, this.verticalAlign);
+        const post: Post = new Post(new Point(this.data['x'], this.data['y']), 10, this.text, '', this.img, this.sound, this.verticalAlign);
         this.dialogRef.close(post);
     }
 

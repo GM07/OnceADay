@@ -16,7 +16,7 @@ export class SearchTextComponent {
     constructor(private postService: PostService) { }
 
     search() {
-        this.postService.getPostsByQuery(this.query).subscribe((dataPost: DataPost[]) => {
+        this.postService.getPostsByQuery(this.query.toLowerCase()).subscribe((dataPost: DataPost[]) => {
             this.results = dataPost.map(Post.fromDataPost);
         });
 
