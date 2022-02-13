@@ -48,9 +48,5 @@ def find_notes_by_text(text):
 
 if __name__ == '__main__':
     print('The backend is running on port 5000')
-<<<<<<< HEAD
     APP.run(host="0.0.0.0", debug=True, port=5000)
-=======
-    APP.run(host='0.0.0.0' , debug=True, port=5000)
->>>>>>> 988e3eec4dfd8c8f982fa7e41de91eefe0fc50cc
 
